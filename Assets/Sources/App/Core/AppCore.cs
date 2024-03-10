@@ -24,7 +24,7 @@ namespace Sources.App.Core
         private void FixedUpdate() => 
             _sceneService?.UpdateFixed(Time.fixedDeltaTime);
 
-        private void Construct(ISceneService sceneService) => 
+        public void Construct(ISceneService sceneService) => 
             _sceneService = sceneService ?? throw new ArgumentNullException(nameof(sceneService));
     }
 }
