@@ -4,6 +4,7 @@ using Sources.Domain.PlayerMovement;
 using Sources.Infrastructure.Factories.Controllers.PlayerCameras;
 using Sources.Infrastructure.Factories.PlayerCameras;
 using Sources.Presentations.Views.PlayerCameras;
+using Sources.PresentationsInterfaces.Views.PlayerCameras;
 using Object = UnityEngine.Object;
 
 namespace Sources.Infrastructure.Factories.Views.PlayerCameras

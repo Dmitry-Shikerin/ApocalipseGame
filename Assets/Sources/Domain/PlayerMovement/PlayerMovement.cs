@@ -8,11 +8,18 @@ namespace Sources.Domain.PlayerMovement
         private Vector3 _direction;
         private Vector3 _position;
         private float _speed;
+        private Vector3 _lookDirection;
 
         public Vector3 Direction
         {
             get => _direction;
             set => SetField(ref _direction, value);
+        }
+
+        public Vector3 LookDirection
+        {
+            get => _lookDirection;
+            set => SetField(ref _lookDirection, value);
         }
 
         public Vector3 Position

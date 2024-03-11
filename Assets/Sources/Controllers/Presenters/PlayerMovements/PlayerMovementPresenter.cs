@@ -7,7 +7,6 @@ using Sources.InfrastructureInterfaces.Services.InputServices;
 using Sources.InfrastructureInterfaces.Services.UpdateServices;
 using Sources.InfrastructureInterfaces.StateMachines.ContextStateMachines.States;
 using Sources.PresentationsInterfaces.Views.PlayerMovement;
-using UnityEngine;
 
 namespace Sources.Controllers.Presenters.PlayerMovements
 {
@@ -49,13 +48,14 @@ namespace Sources.Controllers.Presenters.PlayerMovements
         {
             Apply(_inputService.PlayerInput);
             Update(deltaTime);
-            
+
             UpdatePosition();
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnDirectionChanged(sender, e);
+            OnLookDirectionChanged(sender, e);
         }
 
         private void OnDirectionChanged(object sender, PropertyChangedEventArgs e)
@@ -64,12 +64,17 @@ namespace Sources.Controllers.Presenters.PlayerMovements
                 return;
 
             _playerMovementView.Move(_playerMovement.Direction);
-            _playerMovementView.SetLook(_playerMovement.Direction);
         }
 
-        private void UpdatePosition()
+        private void OnLookDirectionChanged(object sender, PropertyChangedEventArgs e)
         {
-            _playerMovement.Position = _playerMovementView.Position;
+            if (e.PropertyName != nameof(PlayerMovement.LookDirection))
+                return;
+            
+            _playerMovementView.SetLook(_playerMovement.LookDirection);
         }
+
+        private void UpdatePosition() =>
+            _playerMovement.Position = _playerMovementView.Position;
     }
 }

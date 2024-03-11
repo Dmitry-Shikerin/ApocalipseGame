@@ -3,6 +3,8 @@ using Sources.Controllers.Presenters;
 using Sources.Controllers.Presenters.PlayerCamera;
 using Sources.InfrastructureInterfaces.Services.UpdateServices;
 using Sources.Presentations.Views.PlayerCameras;
+using Sources.PresentationsInterfaces.Views.PlayerCameras;
+using UnityEngine;
 
 namespace Sources.Infrastructure.Factories.Controllers.PlayerCameras
 {
@@ -30,7 +32,9 @@ namespace Sources.Infrastructure.Factories.Controllers.PlayerCameras
         public override void Disable() => 
             _lateUpdateRegister.UnRegister(OnLateUpdate);
 
-        private void OnLateUpdate(float deltaTime) => 
+        private void OnLateUpdate(float deltaTime)
+        {
             _playerCameraView.Follow(_playerCamera.Position);
+        }
     }
 }

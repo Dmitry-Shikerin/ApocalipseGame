@@ -1,6 +1,7 @@
 ﻿using System;
 using Sources.Domain.PlayerMovement;
 using Sources.Infrastructure.StateMachines.ContextStateMachines.States;
+using UnityEngine;
 
 namespace Sources.Controllers.Presenters.PlayerMovements.States
 {
@@ -15,12 +16,12 @@ namespace Sources.Controllers.Presenters.PlayerMovements.States
 
         public override void Enter(object payload = null)
         {
-            SetSpeed(0);
         }
-        
-        private void SetSpeed(float speed)
+
+        public override void Update(float deltaTime)
         {
-            _playerMovement.Speed = speed;
+            _playerMovement.Speed = Mathf.MoveTowards(
+                _playerMovement.Speed, 0, 0.01f);
         }
     }
 }

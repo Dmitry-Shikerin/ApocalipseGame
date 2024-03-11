@@ -29,11 +29,11 @@ namespace Sources.Infrastructure.Factories.Controllers.PlayerMovements
         public PlayerMovementPresenter Create(PlayerMovement playerMovement, IPlayerMovementView playerMovementView)
         {
             PlayerMovementIdleState idleState = new PlayerMovementIdleState(playerMovement);
-            PlayerMovementWalkState walkState = new PlayerMovementWalkState(
+            PlayerMovementState state = new PlayerMovementState(
                 playerMovement, _inputService);
 
             FuncContextTransition toWalkTransition = new FuncContextTransition(
-                walkState, context =>
+                state, context =>
                 {
                     if (context is not PlayerInput playerInput)
                         return false;
@@ -56,7 +56,7 @@ namespace Sources.Infrastructure.Factories.Controllers.PlayerMovements
 
                     return true;
                 });
-            walkState.AddTransition(toIdleTransition);
+            state.AddTransition(toIdleTransition);
 
             return new PlayerMovementPresenter
             (

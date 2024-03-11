@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace Sources.Controllers.Presenters.PlayerMovements.States
 {
-    public class PlayerMovementWalkState : ContextStateBase
+    public class PlayerMovementState : ContextStateBase
     {
         private readonly PlayerMovement _playerMovement;
         private readonly IInputService _inputService;
 
-        public PlayerMovementWalkState
+        public PlayerMovementState
         (
             PlayerMovement playerMovement,
             IInputService inputService
@@ -24,12 +24,26 @@ namespace Sources.Controllers.Presenters.PlayerMovements.States
 
         public override void Enter(object payload = null)
         {
-            _playerMovement.Speed = 2f;
         }
 
         public override void Update(float deltaTime)
         {
-            _playerMovement.Direction = _inputService.PlayerInput.Direction * 5 * deltaTime;
+            float targetSpeed = _inputService.PlayerInput.Speed > 0 
+                ? _inputService.PlayerInput.Speed 
+                : 0.7f;
+
+            _playerMovement.Speed = Mathf.MoveTowards(
+                _playerMovement.Speed, targetSpeed, 0.01f);
+            
+            _playerMovement.Direction = _playerMovement.Speed *
+                                        deltaTime * _inputService.PlayerInput.Direction.normalized;
+
+            if(_playerMovement.Direction == Vector3.zero)
+                return;
+            
+            _playerMovement.LookDirection = Vector3.RotateTowards(
+                _playerMovement.LookDirection, _playerMovement.Direction,
+                0.05f, 0.01f);
         }
     }
 }

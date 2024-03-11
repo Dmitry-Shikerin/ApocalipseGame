@@ -17,8 +17,9 @@ namespace Sources.Infrastructure.Services.InputService
         private void UpdateMovement(float deltaTime)
         {
             Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            float speed = Input.GetAxis("Run");
 
-            PlayerInput = new PlayerInput(direction);
+            PlayerInput = new PlayerInput(direction, speed);
         }
     }
 }
