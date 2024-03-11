@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using Sources.ControllersInterfaces.Presenters;
 using Sources.Domain.PlayerMovement;
-using Sources.Infrastructure.Services.InputService;
 using Sources.Infrastructure.StateMachines.ContextStateMachines;
+using Sources.InfrastructureInterfaces.Services.InputServices;
 using Sources.InfrastructureInterfaces.Services.UpdateServices;
 using Sources.InfrastructureInterfaces.StateMachines.ContextStateMachines.States;
 using Sources.PresentationsInterfaces.Views.PlayerMovement;
@@ -58,12 +58,11 @@ namespace Sources.Controllers.Presenters.PlayerMovements
 
         private void OnDirectionChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (sender is not Vector3 direction)
+            if (e.PropertyName != nameof(PlayerMovement.Direction))
                 return;
 
-            if (e.PropertyName != "Direction")
-                return;
-
+            Debug.Log($"Direction Property Cganged");
+            
             _playerMovementView.Move(_playerMovement.Direction);
         }
     }

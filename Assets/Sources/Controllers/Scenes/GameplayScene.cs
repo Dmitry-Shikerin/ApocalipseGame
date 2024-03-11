@@ -1,7 +1,7 @@
 ﻿using System;
 using Sources.ControllersInterfaces.Scenes;
+using Sources.Infrastructure.Factories.Views.Scenes;
 using Sources.Infrastructure.Services.InputService;
-using Sources.Infrastructure.Services.UpdateServices;
 using Sources.InfrastructureInterfaces.Services.UpdateServices;
 
 namespace Sources.Controllers.Scenes
@@ -10,21 +10,26 @@ namespace Sources.Controllers.Scenes
     {
         private readonly IUpdateService _updateService;
         private readonly InputService _inputService;
+        private readonly GameplaySceneViewFactory _gameplaySceneViewFactory;
 
         public GameplayScene
         (
             IUpdateService updateService,
-            InputService inputService
+            InputService inputService,
+            GameplaySceneViewFactory gameplaySceneViewFactory
         )
         {
             _updateService = updateService ?? throw new ArgumentNullException(nameof(updateService));
             _inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
+            _gameplaySceneViewFactory = gameplaySceneViewFactory 
+                                        ?? throw new ArgumentNullException(nameof(gameplaySceneViewFactory));
         }
 
         public string Name => nameof(GameplayScene);
 
         public void Enter(object payload = null)
         {
+            _gameplaySceneViewFactory.Create();
         }
 
         public void Exit()

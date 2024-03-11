@@ -5,6 +5,7 @@ using Sources.Domain.Dto;
 using Sources.Domain.PlayerMovement;
 using Sources.Infrastructure.Services.InputService;
 using Sources.Infrastructure.StateMachines.ContextStateMachines.Transitions;
+using Sources.InfrastructureInterfaces.Services.InputServices;
 using Sources.InfrastructureInterfaces.Services.UpdateServices;
 using Sources.PresentationsInterfaces.Views.PlayerMovement;
 
@@ -28,10 +29,11 @@ namespace Sources.Infrastructure.Factories.Controllers.PlayerMovements
         public PlayerMovementPresenter Create(PlayerMovement playerMovement, IPlayerMovementView playerMovementView)
         {
             PlayerMovementIdleState idleState = new PlayerMovementIdleState(playerMovement);
-            PlayerMovementWalkState walkState = new PlayerMovementWalkState(playerMovement);
+            PlayerMovementWalkState walkState = new PlayerMovementWalkState(
+                playerMovement, _inputService);
 
             FuncContextTransition toWalkTransition = new FuncContextTransition(
-                idleState, context =>
+                walkState, context =>
                 {
                     if (context is not PlayerInput playerInput)
                         return false;
@@ -44,7 +46,7 @@ namespace Sources.Infrastructure.Factories.Controllers.PlayerMovements
             idleState.AddTransition(toWalkTransition);
 
             FuncContextTransition toIdleTransition = new FuncContextTransition(
-                walkState, context =>
+                idleState, context =>
                 {
                     if (context is not PlayerInput playerInput)
                         return false;

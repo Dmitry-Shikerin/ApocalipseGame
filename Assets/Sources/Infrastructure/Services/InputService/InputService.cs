@@ -1,5 +1,7 @@
 ﻿using Sources.Domain.Dto;
+using Sources.InfrastructureInterfaces.Services.InputServices;
 using Sources.InfrastructureInterfaces.StateMachines.States;
+using UnityEngine;
 
 namespace Sources.Infrastructure.Services.InputService
 {
@@ -14,12 +16,9 @@ namespace Sources.Infrastructure.Services.InputService
 
         private void UpdateMovement(float deltaTime)
         {
-            
-        }
-    }
+            Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
-    public interface IInputService
-    {
-        PlayerInput PlayerInput { get; }
+            PlayerInput = new PlayerInput(direction);
+        }
     }
 }

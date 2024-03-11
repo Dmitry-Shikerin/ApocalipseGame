@@ -1,5 +1,8 @@
 ﻿using Sources.Controllers.Presenters.PlayerMovements;
+using Sources.Infrastructure.Factories.Controllers.PlayerMovements;
+using Sources.Infrastructure.Factories.Controllers.Scenes;
 using Sources.Infrastructure.Factories.Views.PlayerMovements;
+using Sources.Infrastructure.Factories.Views.Scenes;
 using Sources.Infrastructure.Services.InputService;
 using Sources.Infrastructure.Services.UpdateServices;
 using Zenject;
@@ -18,11 +21,14 @@ namespace Sources.Infrastructure.DiContainers
         {
             Container.BindInterfacesAndSelfTo<UpdateService>().AsSingle();
             Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
+
+            Container.Bind<GameplaySceneViewFactory>().AsSingle();
+            Container.Bind<GameplaySceneFactory>().AsSingle();
         }
         
         private void BindPlayer()
         {
-            Container.Bind<PlayerMovementPresenter>().AsSingle();
+            Container.Bind<PlayerMovementPresenterFactory>().AsSingle();
             Container.Bind<PlayerMovementViewFactory>().AsSingle();
         }
     }
