@@ -15,7 +15,12 @@ namespace Sources.Controllers.Presenters.PlayerMovements.States
 
         public override void Enter(object payload = null)
         {
-            
+            SetSpeed(0);
+        }
+        
+        private void SetSpeed(float speed)
+        {
+            _playerMovement.Speed = speed;
         }
     }
 }

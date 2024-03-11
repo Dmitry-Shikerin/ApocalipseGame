@@ -64,6 +64,7 @@ namespace Sources.Controllers.Presenters.PlayerMovements
                 return;
 
             _playerMovementView.Move(_playerMovement.Direction);
+            _playerMovementView.SetLook(_playerMovement.Direction);
         }
 
         private void UpdatePosition()

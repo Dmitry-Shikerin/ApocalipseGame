@@ -24,6 +24,7 @@ namespace Sources.Controllers.Presenters.PlayerMovements.States
 
         public override void Enter(object payload = null)
         {
+            _playerMovement.Speed = 2f;
         }
 
         public override void Update(float deltaTime)

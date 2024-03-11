@@ -14,5 +14,7 @@ namespace Sources.Presentations.Views.PlayerMovements
         public void Move(Vector3 direction) => 
             _characterController.Move(direction);
 
+        public void SetLook(Vector3 lookDirection) => 
+            transform.forward = lookDirection;
     }
 }
