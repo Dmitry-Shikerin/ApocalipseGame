@@ -20,6 +20,7 @@ namespace Sources.Infrastructure.DiContainers
         private void BindServices()
         {
             Container.BindInterfacesAndSelfTo<UpdateService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<LateUpdateService>().AsSingle();
             Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
 
             Container.Bind<GameplaySceneViewFactory>().AsSingle();

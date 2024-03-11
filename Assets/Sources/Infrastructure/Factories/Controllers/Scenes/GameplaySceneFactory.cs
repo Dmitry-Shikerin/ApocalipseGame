@@ -11,17 +11,20 @@ namespace Sources.Infrastructure.Factories.Controllers.Scenes
 {
     public class GameplaySceneFactory : ISceneFactory
     {
+        private readonly ILateUpdateService _lateUpdateService;
         private readonly IUpdateService _updateService;
         private readonly InputService _inputService;
         private readonly GameplaySceneViewFactory _gameplaySceneViewFactory;
 
         public GameplaySceneFactory
         (
+            ILateUpdateService lateUpdateService,
             IUpdateService updateService,
             InputService inputService,
             GameplaySceneViewFactory gameplaySceneViewFactory
         )
         {
+            _lateUpdateService = lateUpdateService ?? throw new ArgumentNullException(nameof(lateUpdateService));
             _updateService = updateService ?? throw new ArgumentNullException(nameof(updateService));
             _inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
             _gameplaySceneViewFactory = gameplaySceneViewFactory 
@@ -32,6 +35,7 @@ namespace Sources.Infrastructure.Factories.Controllers.Scenes
         {
             return new GameplayScene
             (
+                _lateUpdateService,
                 _updateService,
                 _inputService,
                 _gameplaySceneViewFactory

@@ -1,10 +1,9 @@
 using System;
+using Sources.InfrastructureInterfaces.Services.Registers;
 
 namespace Sources.InfrastructureInterfaces.Services.UpdateServices
 {
-    public interface IUpdateRegister
+    public interface IUpdateRegister : IFloatActionRegister
     {
-        void Register(Action<float> action);
-        void UnRegister(Action<float> action);
     }
 }

@@ -49,6 +49,8 @@ namespace Sources.Controllers.Presenters.PlayerMovements
         {
             Apply(_inputService.PlayerInput);
             Update(deltaTime);
+            
+            UpdatePosition();
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -61,9 +63,12 @@ namespace Sources.Controllers.Presenters.PlayerMovements
             if (e.PropertyName != nameof(PlayerMovement.Direction))
                 return;
 
-            Debug.Log($"Direction Property Cganged");
-            
             _playerMovementView.Move(_playerMovement.Direction);
+        }
+
+        private void UpdatePosition()
+        {
+            _playerMovement.Position = _playerMovementView.Position;
         }
     }
 }

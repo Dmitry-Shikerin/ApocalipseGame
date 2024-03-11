@@ -8,17 +8,20 @@ namespace Sources.Controllers.Scenes
 {
     public class GameplayScene : IScene
     {
+        private readonly ILateUpdateService _lateUpdateService;
         private readonly IUpdateService _updateService;
         private readonly InputService _inputService;
         private readonly GameplaySceneViewFactory _gameplaySceneViewFactory;
 
         public GameplayScene
         (
+            ILateUpdateService lateUpdateService,
             IUpdateService updateService,
             InputService inputService,
             GameplaySceneViewFactory gameplaySceneViewFactory
         )
         {
+            _lateUpdateService = lateUpdateService ?? throw new ArgumentNullException(nameof(lateUpdateService));
             _updateService = updateService ?? throw new ArgumentNullException(nameof(updateService));
             _inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
             _gameplaySceneViewFactory = gameplaySceneViewFactory 
@@ -35,6 +38,7 @@ namespace Sources.Controllers.Scenes
         public void Exit()
         {
             _updateService.UnregisterAll();
+            _lateUpdateService.UnregisterAll();
         }
 
         public void Update(float deltaTime)
@@ -45,6 +49,7 @@ namespace Sources.Controllers.Scenes
 
         public void UpdateLate(float deltaTime)
         {
+            _lateUpdateService.UpdateLate(deltaTime);
         }
 
         public void UpdateFixed(float fixedDeltaTime)

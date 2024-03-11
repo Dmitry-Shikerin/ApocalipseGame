@@ -8,8 +8,11 @@ namespace Sources.Presentations.Views.PlayerMovements
     public class PlayerMovementView : PresentableView<PlayerMovementPresenter>, IPlayerMovementView
     {
         [Required] [SerializeField] private CharacterController _characterController;
+
+        public Vector3 Position => transform.position;
         
         public void Move(Vector3 direction) => 
             _characterController.Move(direction);
+
     }
 }
