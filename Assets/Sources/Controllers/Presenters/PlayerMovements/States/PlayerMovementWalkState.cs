@@ -29,7 +29,6 @@ namespace Sources.Controllers.Presenters.PlayerMovements.States
         public override void Update(float deltaTime)
         {
             _playerMovement.Direction = _inputService.PlayerInput.Direction * 5 * deltaTime;
-            Debug.Log(_playerMovement.Direction);
         }
     }
 }

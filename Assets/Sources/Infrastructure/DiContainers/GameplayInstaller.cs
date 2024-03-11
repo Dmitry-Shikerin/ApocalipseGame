@@ -1,6 +1,9 @@
 ﻿using Sources.Controllers.Presenters.PlayerMovements;
+using Sources.Infrastructure.Factories.Controllers.PlayerCameras;
 using Sources.Infrastructure.Factories.Controllers.PlayerMovements;
 using Sources.Infrastructure.Factories.Controllers.Scenes;
+using Sources.Infrastructure.Factories.PlayerCameras;
+using Sources.Infrastructure.Factories.Views.PlayerCameras;
 using Sources.Infrastructure.Factories.Views.PlayerMovements;
 using Sources.Infrastructure.Factories.Views.Scenes;
 using Sources.Infrastructure.Services.InputService;
@@ -31,6 +34,9 @@ namespace Sources.Infrastructure.DiContainers
         {
             Container.Bind<PlayerMovementPresenterFactory>().AsSingle();
             Container.Bind<PlayerMovementViewFactory>().AsSingle();
+
+            Container.Bind<PlayerCameraPresenterFactory>().AsSingle();
+            Container.Bind<PlayerCameraViewFactory>().AsSingle();
         }
     }
 }
