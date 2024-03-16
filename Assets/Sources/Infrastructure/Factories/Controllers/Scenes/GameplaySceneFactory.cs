@@ -16,13 +16,11 @@ namespace Sources.Infrastructure.Factories.Controllers.Scenes
         private readonly InputService _inputService;
         private readonly GameplaySceneViewFactory _gameplaySceneViewFactory;
 
-        public GameplaySceneFactory
-        (
+        public GameplaySceneFactory(
             ILateUpdateService lateUpdateService,
             IUpdateService updateService,
             InputService inputService,
-            GameplaySceneViewFactory gameplaySceneViewFactory
-        )
+            GameplaySceneViewFactory gameplaySceneViewFactory)
         {
             _lateUpdateService = lateUpdateService ?? throw new ArgumentNullException(nameof(lateUpdateService));
             _updateService = updateService ?? throw new ArgumentNullException(nameof(updateService));

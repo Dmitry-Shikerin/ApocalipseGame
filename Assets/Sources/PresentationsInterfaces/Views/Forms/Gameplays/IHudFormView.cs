@@ -5,5 +5,6 @@ namespace Sources.PresentationsInterfaces.Views.Forms.Gameplays
     public interface IHudFormView
     {
         IButtonView PauseButton { get; }
+        IButtonView InventoryButton { get; }
     }
 }

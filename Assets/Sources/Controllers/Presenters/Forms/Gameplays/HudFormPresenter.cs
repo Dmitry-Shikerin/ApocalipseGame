@@ -10,23 +10,30 @@ namespace Sources.Controllers.Presenters.Forms.Gameplays
         private readonly IHudFormView _hudFormView;
         private readonly IFormService _formService;
 
-        public HudFormPresenter
-        (
+        public HudFormPresenter(
             IHudFormView hudFormView,
-            IFormService formService
-        )
+            IFormService formService)
         {
             _hudFormView = hudFormView ?? throw new ArgumentNullException(nameof(hudFormView));
             _formService = formService ?? throw new ArgumentNullException(nameof(formService));
         }
 
-        public override void Enable() => 
+        public override void Enable()
+        {
             _hudFormView.PauseButton.AddListener(OnShowPauseMenu);
+            _hudFormView.InventoryButton.AddListener(OnShowInventory);
+        }
 
-        public override void Disable() => 
+        public override void Disable()
+        {
             _hudFormView.PauseButton.RemoveListener(OnShowPauseMenu);
+            _hudFormView.InventoryButton.RemoveListener(OnShowInventory);
+        }
 
         private void OnShowPauseMenu() => 
             _formService.Show<PauseFormView>();
+
+        private void OnShowInventory() =>
+            _formService.Show<InventoryFormView>();
     }
 }

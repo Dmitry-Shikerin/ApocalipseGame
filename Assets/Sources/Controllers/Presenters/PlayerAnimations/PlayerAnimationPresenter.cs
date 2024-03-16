@@ -12,11 +12,9 @@ namespace Sources.Controllers.Presenters.PlayerAnimations
         private readonly IPlayerAnimationChanger _playerAnimationChanger;
         private readonly IPlayerAnimationView _playerAnimationView;
 
-        public PlayerAnimationPresenter
-        (
+        public PlayerAnimationPresenter(
             IPlayerAnimationChanger playerAnimationChanger,
-            IPlayerAnimationView playerAnimationView
-        )
+            IPlayerAnimationView playerAnimationView)
         {
             _playerAnimationChanger = playerAnimationChanger ??
                                       throw new ArgumentNullException(nameof(playerAnimationChanger));

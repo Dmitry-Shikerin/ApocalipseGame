@@ -9,6 +9,7 @@ namespace Sources.App.Core
     {
         private ISceneService _sceneService;
 
+        //TODO сделать Awake У презентора
         private void Awake() => 
             DontDestroyOnLoad(this);
 

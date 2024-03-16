@@ -15,14 +15,14 @@ namespace Sources.Infrastructure.Factories.Services.FormServices
         private readonly FormService _formService;
         private readonly HudFormPresenterFactory _hudFormPresenterFactory;
         private readonly PauseFormPresenterFactory _pauseFormPresenterFactory;
+        private readonly InventoryFormPresenterFactory _inventoryFormPresenterFactory;
 
-        public GameplayFormServiceFactory
-        (
+        public GameplayFormServiceFactory(
             Hud hud,
             FormService formService,
             HudFormPresenterFactory hudFormPresenterFactory,
-            PauseFormPresenterFactory pauseFormPresenterFactory
-        )
+            PauseFormPresenterFactory pauseFormPresenterFactory,
+            InventoryFormPresenterFactory inventoryFormPresenterFactory)
         {
             _hud = hud ? hud : throw new ArgumentNullException(nameof(hud));
             _formService = formService ?? throw new ArgumentNullException(nameof(formService));
@@ -30,22 +30,27 @@ namespace Sources.Infrastructure.Factories.Services.FormServices
                                        throw new ArgumentNullException(nameof(hudFormPresenterFactory));
             _pauseFormPresenterFactory = pauseFormPresenterFactory ??
                                          throw new ArgumentNullException(nameof(pauseFormPresenterFactory));
+            _inventoryFormPresenterFactory = inventoryFormPresenterFactory ??
+                                             throw new ArgumentNullException(nameof(inventoryFormPresenterFactory));
         }
 
         public IFormService Create()
         {
-            Form<HudFormView, HudFormPresenter> hudForm = 
+            Form<HudFormView, HudFormPresenter> hudForm =
                 new Form<HudFormView, HudFormPresenter>(
-                _hudFormPresenterFactory.Create, _hud.HudForm);
+                    _hudFormPresenterFactory.Create, _hud.HudForm);
             _formService.Add(hudForm);
 
-            Form<PauseFormView, PauseFormPresenter> pauseForm = 
+            Form<PauseFormView, PauseFormPresenter> pauseForm =
                 new Form<PauseFormView, PauseFormPresenter>(
-                _pauseFormPresenterFactory.Create, _hud.PauseForm);
+                    _pauseFormPresenterFactory.Create, _hud.PauseForm);
             _formService.Add(pauseForm);
 
-            _formService.Show<HudFormView>();
-            
+            Form<InventoryFormView, InventoryFormPresenter> inventoryForm =
+                new Form<InventoryFormView, InventoryFormPresenter>(
+                    _inventoryFormPresenterFactory.Create, _hud.InventoryForm);
+            _formService.Add(inventoryForm);
+
             return _formService;
         }
     }

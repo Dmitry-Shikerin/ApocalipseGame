@@ -14,12 +14,10 @@ namespace Sources.Infrastructure.Factories.Controllers.PlayerCameras
         private readonly IPlayerCameraView _playerCameraView;
         private readonly ILateUpdateRegister _lateUpdateRegister;
 
-        public PlayerCameraPresenter
-        (
+        public PlayerCameraPresenter(
             PlayerCamera playerCamera,
             IPlayerCameraView playerCameraView,
-            ILateUpdateRegister lateUpdateRegister
-        )
+            ILateUpdateRegister lateUpdateRegister)
         {
             _playerCamera = playerCamera ?? throw new ArgumentNullException(nameof(playerCamera));
             _playerCameraView = playerCameraView ?? throw new ArgumentNullException(nameof(playerCameraView));
@@ -32,9 +30,7 @@ namespace Sources.Infrastructure.Factories.Controllers.PlayerCameras
         public override void Disable() => 
             _lateUpdateRegister.UnRegister(OnLateUpdate);
 
-        private void OnLateUpdate(float deltaTime)
-        {
+        private void OnLateUpdate(float deltaTime) =>
             _playerCameraView.Follow(_playerCamera.Position);
-        }
     }
 }
