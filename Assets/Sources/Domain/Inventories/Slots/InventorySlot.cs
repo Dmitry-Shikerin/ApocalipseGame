@@ -1,4 +1,5 @@
 ﻿using System;
+using Sources.DomainInterfaces.Items;
 using UnityEngine;
 
 namespace Sources.Domain.Inventories.Slots
@@ -16,6 +17,8 @@ namespace Sources.Domain.Inventories.Slots
         public event Action<string> ItemIdChanged;
         public event Action<int> ItemAmountChanged;
 
+        
+        public IInventoryItem Item { get; set; }
         public Vector2Int Position { get; }
         
         public string ItemId
@@ -44,6 +47,7 @@ namespace Sources.Domain.Inventories.Slots
             }
         }
 
-        public bool IsEmpty => Amount == 0 && string.IsNullOrEmpty(ItemId);
+        //TODO нужно не забыть длеать этот айтем нал
+        public bool IsEmpty => Amount == 0 && string.IsNullOrEmpty(ItemId) && Item == null;
     }
 }

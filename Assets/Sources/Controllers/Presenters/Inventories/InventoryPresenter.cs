@@ -37,11 +37,11 @@ namespace Sources.Controllers.Presenters.Inventories
             // InventoryItemView inventoryItemView = eventData.pointerDrag.GetComponent<InventoryItemView>();
             // IInventorySlotView inventorySlotView = inventoryItemView.InventorySlotView;
 
-            _inventory.AddItems(
-                inventorySlotView.Position,
-                inventorySlotView.Id,
-                inventorySlotView.Amount);
-            
+            // _inventory.AddItems(
+            //     inventorySlotView.Position,
+            //     inventorySlotView.Id,
+            //     inventorySlotView.Amount);
+            //
             Debug.Log("Inventory Add");
         }
 

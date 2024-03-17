@@ -7,6 +7,7 @@ using Sources.Domain.Inventories.Items;
 using Sources.Domain.Inventories.Slots;
 using Sources.Domain.PlayerMovement;
 using Sources.Infrastructure.Factories.Services.FormServices;
+using Sources.Infrastructure.Factories.Services.ItemFactoriesProviders;
 using Sources.Infrastructure.Factories.Views.Inventories;
 using Sources.Infrastructure.Factories.Views.Inventories.Items;
 using Sources.Infrastructure.Factories.Views.Inventories.Slots;
@@ -30,6 +31,7 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
         private readonly PlayerCameraViewFactory _playerCameraViewFactory;
         private readonly PlayerAnimationViewFactory _playerAnimationViewFactory;
         private readonly PlayerInventoryViewFactory _playerInventoryViewFactory;
+        private readonly ItemFactoriesProviderFactory _itemFactoriesProviderFactory;
 
         public GameplaySceneViewFactory(
             Hud hud,
@@ -37,7 +39,8 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             PlayerMovementViewFactory playerMovementViewFactory,
             PlayerCameraViewFactory playerCameraViewFactory,
             PlayerAnimationViewFactory playerAnimationViewFactory,
-            PlayerInventoryViewFactory playerInventoryViewFactory)
+            PlayerInventoryViewFactory playerInventoryViewFactory,
+            ItemFactoriesProviderFactory itemFactoriesProviderFactory)
         {
             _hud = hud ? hud : throw new ArgumentNullException(nameof(hud));
             _gameplayFormServiceFactory = gameplayFormServiceFactory ?? 
@@ -50,6 +53,8 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
                                           throw new ArgumentNullException(nameof(playerAnimationViewFactory));
             _playerInventoryViewFactory = playerInventoryViewFactory 
                                           ?? throw new ArgumentNullException(nameof(playerInventoryViewFactory));
+            _itemFactoriesProviderFactory = itemFactoriesProviderFactory ?? 
+                                            throw new ArgumentNullException(nameof(itemFactoriesProviderFactory));
         }
 
         public void Create()
@@ -62,6 +67,8 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             _playerCameraViewFactory.Create(playerCamera);
 
             _playerInventoryViewFactory.Create();
+
+            _itemFactoriesProviderFactory.Create();
             
             _gameplayFormServiceFactory
                 .Create()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Sources.Domain.Inventories.Dto;
 using Sources.Domain.Inventories.Slots;
+using Sources.DomainInterfaces.Items;
 using UnityEngine;
 
 namespace Sources.Domain.Inventories
@@ -32,32 +33,32 @@ namespace Sources.Domain.Inventories
             }
         }
 
-        public AddItemsResult AddItems(string itemId, int amount = 1)
+        public AddItemsResult AddItems(IInventoryItem item, int amount = 1)
         {
             int remainingAmount = amount;
             int itemsAddedToSlotsWithSameItemsAmount =
-                AddToSlotWithSameItems(itemId, remainingAmount, out remainingAmount);
+                AddToSlotWithSameItems(item, remainingAmount, out remainingAmount);
 
             if (remainingAmount <= 0)
                 return new AddItemsResult(OwnerId, amount, itemsAddedToSlotsWithSameItemsAmount);
 
             int itemsAddedToAvailableSlotsAmount =
-                AddToFirstAvailableSlots(itemId, remainingAmount, out remainingAmount);
+                AddToFirstAvailableSlots(item, remainingAmount, out remainingAmount);
             int addedItemsAmount = itemsAddedToSlotsWithSameItemsAmount + itemsAddedToAvailableSlotsAmount;
 
             return new AddItemsResult(OwnerId, amount, addedItemsAmount);
         }
-
-        public AddItemsResult AddItems(Vector2Int slotCoords, string itemId, int amount = 1)
+        
+        public AddItemsResult AddItems(Vector2Int slotCoords, IInventoryItem item, int amount = 1)
         {
             InventorySlot slot = _slots[slotCoords];
             int newValue = slot.Amount + amount;
             int itemsAddedAmount = 0;
 
-            if (slot.IsEmpty) 
-                slot.ItemId = itemId;
+            if (slot.IsEmpty)
+                slot.Item = item;
 
-            int itemSlotCapacity = GetItemSlotCapacity(itemId);
+            int itemSlotCapacity = item.Info.MaxItemsInInventorySlot;
 
             if (newValue > itemSlotCapacity)
             {
@@ -65,7 +66,7 @@ namespace Sources.Domain.Inventories
                 int itemsToAddAmount = itemSlotCapacity - slot.Amount;
                 itemsAddedAmount += itemsToAddAmount;
 
-                AddItemsResult result = AddItems(itemId, remainingItems);
+                AddItemsResult result = AddItems(item, remainingItems);
                 itemsAddedAmount += result.ItemsAddedAmount;
             }
             else
@@ -181,7 +182,7 @@ namespace Sources.Domain.Inventories
             throw new NotImplementedException();
         }
 
-        private int AddToSlotWithSameItems(string itemId, int amount, out int remainingAmount)
+        private int AddToSlotWithSameItems(IInventoryItem item, int amount, out int remainingAmount)
         {
             int itemsAddedAmount = 0;
             remainingAmount = amount;
@@ -201,7 +202,7 @@ namespace Sources.Domain.Inventories
                     if (slot.Amount >= slotItemCapacity)
                         continue;
 
-                    if (slot.ItemId != itemId)
+                    if (slot.Item != item)
                         continue;
 
                     int newValue = slot.Amount + remainingAmount;
@@ -229,8 +230,8 @@ namespace Sources.Domain.Inventories
 
             return itemsAddedAmount;
         }
-
-        private int AddToFirstAvailableSlots(string itemId, int amount, out int remainingAmount)
+        
+        private int AddToFirstAvailableSlots(IInventoryItem item, int amount, out int remainingAmount)
         {
             int itemsAddedAmount = 0;
             remainingAmount = amount;
@@ -245,9 +246,9 @@ namespace Sources.Domain.Inventories
                     if (!slot.IsEmpty)
                         continue;
 
-                    slot.ItemId = itemId;
+                    slot.Item = item;
                     int newValue = remainingAmount;
-                    int slotItemCapacity = GetItemSlotCapacity(slot.ItemId);
+                    int slotItemCapacity = slot.Item.Info.MaxItemsInInventorySlot;
 
                     if (newValue > slotItemCapacity)
                     {
@@ -272,7 +273,7 @@ namespace Sources.Domain.Inventories
 
         private void RemoveItemsFromSlot(Vector2Int slotCoords, string itemId, int slotAmount)
         {
-            throw new NotImplementedException();
+            
         }
 
         private int GetItemSlotCapacity(string itemId)

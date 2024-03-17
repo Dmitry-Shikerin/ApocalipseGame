@@ -1,5 +1,4 @@
 ﻿using Sirenix.OdinInspector;
-using Sources.Controllers.Presenters.Inventories.Items;
 using Sources.Infrastructure.Factories.Controllers.Forms.Gameplay;
 using Sources.Infrastructure.Factories.Controllers.Inventories;
 using Sources.Infrastructure.Factories.Controllers.Inventories.Items;
@@ -7,8 +6,10 @@ using Sources.Infrastructure.Factories.Controllers.Inventories.Slots;
 using Sources.Infrastructure.Factories.Controllers.PlayerAnimations;
 using Sources.Infrastructure.Factories.Controllers.PlayerMovements;
 using Sources.Infrastructure.Factories.Controllers.Scenes;
+using Sources.Infrastructure.Factories.Domain.Items;
 using Sources.Infrastructure.Factories.PlayerCameras;
 using Sources.Infrastructure.Factories.Services.FormServices;
+using Sources.Infrastructure.Factories.Services.ItemFactoriesProviders;
 using Sources.Infrastructure.Factories.Views.Inventories;
 using Sources.Infrastructure.Factories.Views.Inventories.Items;
 using Sources.Infrastructure.Factories.Views.Inventories.Slots;
@@ -18,6 +19,7 @@ using Sources.Infrastructure.Factories.Views.PlayerInventories;
 using Sources.Infrastructure.Factories.Views.PlayerMovements;
 using Sources.Infrastructure.Factories.Views.Scenes;
 using Sources.Infrastructure.Services.InputService;
+using Sources.Infrastructure.Services.Providers;
 using Sources.Infrastructure.Services.Services;
 using Sources.Infrastructure.Services.UpdateServices;
 using Sources.Presentations.Ui.Huds;
@@ -35,6 +37,7 @@ namespace Sources.Infrastructure.DiContainers
             BindServices();
             BindPlayer();
             BindForms();
+            BindItems();
         }
 
         private void BindServices()
@@ -49,6 +52,9 @@ namespace Sources.Infrastructure.DiContainers
             Container.Bind<GameplaySceneViewFactory>().AsSingle();
             Container.Bind<GameplayFormServiceFactory>().AsSingle();
             Container.Bind<GameplaySceneFactory>().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<ItemFactoriesProvider>().AsSingle();
+            Container.Bind<ItemFactoriesProviderFactory>().AsSingle();
         }
 
         private void BindPlayer()
@@ -70,6 +76,11 @@ namespace Sources.Infrastructure.DiContainers
             Container.Bind<InventoryItemViewFactory>().AsSingle();
 
             Container.Bind<PlayerInventoryViewFactory>().AsSingle();
+        }
+
+        private void BindItems()
+        {
+            Container.Bind<WoodPieFactory>().AsSingle();
         }
 
         private void BindForms()
