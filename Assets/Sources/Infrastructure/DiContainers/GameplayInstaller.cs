@@ -10,18 +10,21 @@ using Sources.Infrastructure.Factories.Domain.Items;
 using Sources.Infrastructure.Factories.PlayerCameras;
 using Sources.Infrastructure.Factories.Services.FormServices;
 using Sources.Infrastructure.Factories.Services.ItemFactoriesProviders;
+using Sources.Infrastructure.Factories.Views.GameInventories;
 using Sources.Infrastructure.Factories.Views.Inventories;
 using Sources.Infrastructure.Factories.Views.Inventories.Items;
 using Sources.Infrastructure.Factories.Views.Inventories.Slots;
 using Sources.Infrastructure.Factories.Views.PlayerAnimations;
 using Sources.Infrastructure.Factories.Views.PlayerCameras;
-using Sources.Infrastructure.Factories.Views.PlayerInventories;
 using Sources.Infrastructure.Factories.Views.PlayerMovements;
 using Sources.Infrastructure.Factories.Views.Scenes;
+using Sources.Infrastructure.Services;
 using Sources.Infrastructure.Services.InputService;
+using Sources.Infrastructure.Services.Inventories;
 using Sources.Infrastructure.Services.Providers;
 using Sources.Infrastructure.Services.Services;
 using Sources.Infrastructure.Services.UpdateServices;
+using Sources.InfrastructureInterfaces.Services.Inventories;
 using Sources.Presentations.Ui.Huds;
 using UnityEngine;
 using Zenject;
@@ -46,6 +49,7 @@ namespace Sources.Infrastructure.DiContainers
             Container.BindInterfacesAndSelfTo<LateUpdateService>().AsSingle();
             Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
             Container.BindInterfacesAndSelfTo<FormService>().AsSingle();
+            Container.Bind<IInventoryCreatorService>().To<InventoryCreatorService>().AsSingle();
 
             Container.Bind<Hud>().FromInstance(_hud);
 
@@ -76,6 +80,7 @@ namespace Sources.Infrastructure.DiContainers
             Container.Bind<InventoryItemViewFactory>().AsSingle();
 
             Container.Bind<PlayerInventoryViewFactory>().AsSingle();
+            Container.Bind<LootInventoryViewFactory>().AsSingle();
         }
 
         private void BindItems()
@@ -88,6 +93,7 @@ namespace Sources.Infrastructure.DiContainers
             Container.Bind<HudFormPresenterFactory>().AsSingle();
             Container.Bind<PauseFormPresenterFactory>().AsSingle();
             Container.Bind<InventoryFormPresenterFactory>().AsSingle();
+            Container.Bind<LootFormPresenterFactory>().AsSingle();
         }
     }
 }

@@ -6,5 +6,6 @@ namespace Sources.PresentationsInterfaces.Views.Forms.Gameplays
     {
         IButtonView PauseButton { get; }
         IButtonView InventoryButton { get; }
+        IButtonView LootInventoryButton { get; }
     }
 }

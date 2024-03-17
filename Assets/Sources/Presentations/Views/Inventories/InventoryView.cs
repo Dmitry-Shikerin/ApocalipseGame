@@ -15,10 +15,15 @@ namespace Sources.Presentations.Views.Inventories
 
         public IEnumerable<InventorySlotView> InventorySlotViews => _inventorySlotViews;
 
-        public void AddItem(PointerEventData eventData, InventorySlotView inventorySlotView)
+        public void AddItem(PointerEventData eventData, InventorySlotView fromSlot, InventorySlotView toSlot)
         {
-            Presenter.AddItem(eventData, inventorySlotView);
+            Presenter.AddItem(eventData, fromSlot, toSlot);
             Debug.Log("Inventory AddItem");
+        }
+
+        public void RemoveItems(InventorySlotView fromSlot)
+        {
+            Presenter.RemoveItems(fromSlot);
         }
     }
 }

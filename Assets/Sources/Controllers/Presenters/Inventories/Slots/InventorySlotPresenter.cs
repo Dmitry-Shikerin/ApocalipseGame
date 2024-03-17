@@ -1,5 +1,6 @@
 ﻿using System;
 using Sources.Domain.Inventories.Slots;
+using Sources.DomainInterfaces.Items;
 using Sources.PresentationsInterfaces.Views.Inventories.Slots;
 using UnityEngine;
 
@@ -17,29 +18,63 @@ namespace Sources.Controllers.Presenters.Inventories.Slots
         }
 
         public Vector2Int Position => _inventorySlot.Position;
+        public string OwnerId => _inventorySlot.OwnerId;
+        public IInventoryItem InventoryItem => _inventorySlot.Item;
 
         public override void Enable()
         {
-            _inventorySlot.ItemIdChanged += OnItemIdChanged;
+            OnItemAmountChanged();
+            OnItemIdChanged();
+            OnItemSpriteChanged();
+            
+            _inventorySlot.ItemChanged += OnItemIdChanged;
             _inventorySlot.ItemAmountChanged += OnItemAmountChanged;
         }
 
         public override void Disable()
         {
-            _inventorySlot.ItemIdChanged -= OnItemIdChanged;
+            _inventorySlot.ItemChanged -= OnItemIdChanged;
             _inventorySlot.ItemAmountChanged -= OnItemAmountChanged;
         }
 
-        private void OnItemAmountChanged(int amount)
+        private void OnItemAmountChanged()
         {
-            _inventorySlotView.AmountText.Set(amount.ToString());
-            _inventorySlotView.Amount = amount;
+            _inventorySlotView.AmountText.Set(_inventorySlot.Amount.ToString());
+            _inventorySlotView.Amount = _inventorySlot.Amount;
+            
+            OnItemSpriteChanged();
         }
 
-        private void OnItemIdChanged(string itemId)
+        private void OnItemIdChanged()
         {
-            _inventorySlotView.IdText.Set(itemId);
-            _inventorySlotView.Id = itemId;
+            if (_inventorySlot.Item == null)
+            {
+                _inventorySlotView.IdText.Set("");
+                _inventorySlotView.Id = "";
+                
+                return;
+            }
+            
+            string id = _inventorySlot.Item.Info.ID;
+            
+            _inventorySlotView.IdText.Set(id);
+            _inventorySlotView.Id = id;
+            
+            OnItemSpriteChanged();
+        }
+
+        private void OnItemSpriteChanged()
+        {
+            if (_inventorySlot.Item == null)
+            {
+                _inventorySlotView.Image.sprite = null;
+                _inventorySlotView.Image.color = Color.clear;
+                
+                return;
+            }
+            
+            _inventorySlotView.Image.color = Color.white;
+            _inventorySlotView.Image.sprite = _inventorySlot.Item.Info.SpriteIcon;
         }
     }
 }

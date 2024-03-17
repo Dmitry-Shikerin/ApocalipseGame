@@ -33,7 +33,7 @@ namespace Sources.Domain.Inventories
             }
         }
 
-        public AddItemsResult AddItems(IInventoryItem item, int amount = 1)
+        private AddItemsResult AddItems(IInventoryItem item, int amount = 1)
         {
             int remainingAmount = amount;
             int itemsAddedToSlotsWithSameItemsAmount =
@@ -45,7 +45,7 @@ namespace Sources.Domain.Inventories
             int itemsAddedToAvailableSlotsAmount =
                 AddToFirstAvailableSlots(item, remainingAmount, out remainingAmount);
             int addedItemsAmount = itemsAddedToSlotsWithSameItemsAmount + itemsAddedToAvailableSlotsAmount;
-
+            
             return new AddItemsResult(OwnerId, amount, addedItemsAmount);
         }
         
@@ -78,9 +78,9 @@ namespace Sources.Domain.Inventories
             return new AddItemsResult(OwnerId, amount, itemsAddedAmount);
         }
 
-        public RemoveItemsResult RemoveItems(string itemId, int amount = 1)
+        public RemoveItemsResult RemoveItems(Type itemType, int amount = 1)
         {
-            if (!Has(itemId, amount))
+            if (Has(itemType, amount) == false)
                 return new RemoveItemsResult(OwnerId, amount, false);
 
             int amountToRemove = amount;
@@ -92,18 +92,18 @@ namespace Sources.Domain.Inventories
                     Vector2Int slotCoords = new Vector2Int(i, j);
                     InventorySlot slot = _slots[slotCoords];
 
-                    if (slot.ItemId != itemId)
+                    if (slot.Item.Type != itemType)
                         continue;
 
                     if (amountToRemove > slot.Amount)
                     {
                         amountToRemove -= slot.Amount;
                         
-                        RemoveItems(slotCoords, itemId, slot.Amount);
+                        RemoveItems(slotCoords, itemType, slot.Amount);
                     }
                     else
                     {
-                        RemoveItems(slotCoords, itemId, amountToRemove);
+                        RemoveItems(slotCoords, itemType, amountToRemove);
 
                         return new RemoveItemsResult(OwnerId, amount, true);
                     }
@@ -113,38 +113,38 @@ namespace Sources.Domain.Inventories
             throw new InvalidOperationException("something went wrong, couldn't remove some items");
         }
 
-        public RemoveItemsResult RemoveItems(Vector2Int slotCoords, string itemId, int amount = 1)
+        public RemoveItemsResult RemoveItems(Vector2Int slotCoords, Type itemType, int amount = 1)
         {
             InventorySlot slot = _slots[slotCoords];
 
-            if (slot.IsEmpty || slot.ItemId != itemId || slot.Amount < amount)
+            if (slot.IsEmpty || slot.Item.Type != itemType || slot.Amount < amount)
                 return new RemoveItemsResult(OwnerId, amount, false);
 
             slot.Amount -= amount;
 
             if (slot.Amount == 0) 
-                slot.ItemId = null;
+                slot.Item = null;
 
             return new RemoveItemsResult(OwnerId, amount, true);
         }
 
-        public int GetAmount(string itemId)
+        public int GetAmount(Type itemType)
         {
             int amount = 0;
             IEnumerable<InventorySlot> slots = _slots.Values;
 
             foreach (InventorySlot slot in slots)
             {
-                if (slot.ItemId == itemId) 
+                if (slot.Item.Type == itemType) 
                     amount += slot.Amount;
             }
 
             return amount;
         }
 
-        public bool Has(string itemId, int amount)
+        public bool Has(Type itemType, int amount)
         {
-            int amountExist = GetAmount(itemId);
+            int amountExist = GetAmount(itemType);
             
             return amountExist >= amount;
         }
@@ -169,11 +169,11 @@ namespace Sources.Domain.Inventories
         {
             InventorySlot slotA = _slots[slotCoordsA];
             InventorySlot slotB = _slots[slotCoordsB];
-            string tempSlotItemId = slotA.ItemId;
+            IInventoryItem tempSlotItem = slotA.Item;
             int tempSlotItemAmount = slotA.Amount;
-            slotA.ItemId = slotB.ItemId;
+            slotA.Item = slotB.Item;
             slotA.Amount = slotB.Amount;
-            slotB.ItemId = tempSlotItemId;
+            slotB.Item = tempSlotItem;
             slotB.Amount = tempSlotItemAmount;
         }
 
@@ -197,7 +197,7 @@ namespace Sources.Domain.Inventories
                     if (slot.IsEmpty)
                         continue;
 
-                    int slotItemCapacity = GetItemSlotCapacity(slot.ItemId);
+                    int slotItemCapacity = GetItemSlotCapacity(slot.Item.Info.ID);
 
                     if (slot.Amount >= slotItemCapacity)
                         continue;

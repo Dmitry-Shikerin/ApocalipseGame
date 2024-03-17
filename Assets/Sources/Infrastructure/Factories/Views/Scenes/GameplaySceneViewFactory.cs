@@ -1,24 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Sources.Controllers.Presenters.PlayerCamera;
-using Sources.Domain.Inventories;
-using Sources.Domain.Inventories.Items;
-using Sources.Domain.Inventories.Slots;
+using Sources.Domain.Items;
 using Sources.Domain.PlayerMovement;
 using Sources.Infrastructure.Factories.Services.FormServices;
 using Sources.Infrastructure.Factories.Services.ItemFactoriesProviders;
-using Sources.Infrastructure.Factories.Views.Inventories;
-using Sources.Infrastructure.Factories.Views.Inventories.Items;
-using Sources.Infrastructure.Factories.Views.Inventories.Slots;
+using Sources.Infrastructure.Factories.Views.GameInventories;
 using Sources.Infrastructure.Factories.Views.PlayerAnimations;
 using Sources.Infrastructure.Factories.Views.PlayerCameras;
-using Sources.Infrastructure.Factories.Views.PlayerInventories;
 using Sources.Infrastructure.Factories.Views.PlayerMovements;
+using Sources.InfrastructureInterfaces.Services.Providers;
 using Sources.Presentations.Ui.Huds;
 using Sources.Presentations.Views.Forms.Gameplay;
-using Sources.Presentations.Views.Inventories.Slots;
-using Sources.PresentationsInterfaces.Views.Inventories.Slots;
 using UnityEngine;
 
 namespace Sources.Infrastructure.Factories.Views.Scenes
@@ -32,6 +24,8 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
         private readonly PlayerAnimationViewFactory _playerAnimationViewFactory;
         private readonly PlayerInventoryViewFactory _playerInventoryViewFactory;
         private readonly ItemFactoriesProviderFactory _itemFactoriesProviderFactory;
+        private readonly LootInventoryViewFactory _lootInventoryViewFactory;
+        private readonly IItemFactoriesProvider _itemFactoriesProvider;
 
         public GameplaySceneViewFactory(
             Hud hud,
@@ -40,7 +34,9 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             PlayerCameraViewFactory playerCameraViewFactory,
             PlayerAnimationViewFactory playerAnimationViewFactory,
             PlayerInventoryViewFactory playerInventoryViewFactory,
-            ItemFactoriesProviderFactory itemFactoriesProviderFactory)
+            ItemFactoriesProviderFactory itemFactoriesProviderFactory,
+            LootInventoryViewFactory lootInventoryViewFactory,
+            IItemFactoriesProvider itemFactoriesProvider)
         {
             _hud = hud ? hud : throw new ArgumentNullException(nameof(hud));
             _gameplayFormServiceFactory = gameplayFormServiceFactory ?? 
@@ -55,6 +51,9 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
                                           ?? throw new ArgumentNullException(nameof(playerInventoryViewFactory));
             _itemFactoriesProviderFactory = itemFactoriesProviderFactory ?? 
                                             throw new ArgumentNullException(nameof(itemFactoriesProviderFactory));
+            _lootInventoryViewFactory = lootInventoryViewFactory;
+            _itemFactoriesProvider = itemFactoriesProvider ??
+                                     throw new ArgumentNullException(nameof(itemFactoriesProvider));
         }
 
         public void Create()
@@ -66,10 +65,14 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             PlayerCamera playerCamera = new PlayerCamera(playerMovement);
             _playerCameraViewFactory.Create(playerCamera);
 
-            _playerInventoryViewFactory.Create();
-
             _itemFactoriesProviderFactory.Create();
             
+            _playerInventoryViewFactory.Create()
+                .AddItems(new Vector2Int(1, 1), _itemFactoriesProvider.Create<WoodPie>(), 2);
+            //TODO потом исправить
+            _lootInventoryViewFactory
+                .Create("woodPie");
+
             _gameplayFormServiceFactory
                 .Create()
                 .Show<HudFormView>();

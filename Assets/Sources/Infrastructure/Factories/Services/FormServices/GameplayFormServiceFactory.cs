@@ -16,13 +16,15 @@ namespace Sources.Infrastructure.Factories.Services.FormServices
         private readonly HudFormPresenterFactory _hudFormPresenterFactory;
         private readonly PauseFormPresenterFactory _pauseFormPresenterFactory;
         private readonly InventoryFormPresenterFactory _inventoryFormPresenterFactory;
+        private readonly LootFormPresenterFactory _lootFormPresenterFactory;
 
         public GameplayFormServiceFactory(
             Hud hud,
             FormService formService,
             HudFormPresenterFactory hudFormPresenterFactory,
             PauseFormPresenterFactory pauseFormPresenterFactory,
-            InventoryFormPresenterFactory inventoryFormPresenterFactory)
+            InventoryFormPresenterFactory inventoryFormPresenterFactory,
+            LootFormPresenterFactory lootFormPresenterFactory)
         {
             _hud = hud ? hud : throw new ArgumentNullException(nameof(hud));
             _formService = formService ?? throw new ArgumentNullException(nameof(formService));
@@ -32,6 +34,8 @@ namespace Sources.Infrastructure.Factories.Services.FormServices
                                          throw new ArgumentNullException(nameof(pauseFormPresenterFactory));
             _inventoryFormPresenterFactory = inventoryFormPresenterFactory ??
                                              throw new ArgumentNullException(nameof(inventoryFormPresenterFactory));
+            _lootFormPresenterFactory = lootFormPresenterFactory ??
+                                        throw new ArgumentNullException(nameof(lootFormPresenterFactory));
         }
 
         public IFormService Create()
@@ -50,6 +54,11 @@ namespace Sources.Infrastructure.Factories.Services.FormServices
                 new Form<InventoryFormView, InventoryFormPresenter>(
                     _inventoryFormPresenterFactory.Create, _hud.InventoryForm);
             _formService.Add(inventoryForm);
+            
+            Form<LootFormView, LootFormPresenter> lootForm = 
+                new Form<LootFormView, LootFormPresenter>(
+                _lootFormPresenterFactory.Create, _hud.LootForm);
+            _formService.Add(lootForm);
 
             return _formService;
         }

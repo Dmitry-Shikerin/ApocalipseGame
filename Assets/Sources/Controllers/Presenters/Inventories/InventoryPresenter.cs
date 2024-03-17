@@ -29,7 +29,7 @@ namespace Sources.Controllers.Presenters.Inventories
         {
         }
 
-        public void AddItem(PointerEventData eventData, InventorySlotView inventorySlotView)
+        public void AddItem(PointerEventData eventData, InventorySlotView fromSlot, InventorySlotView toSlot)
         {
             // if(eventData.pointerDrag.TryGetComponent(out InventorySlotView inventorySlotView) == false)
             //     return;
@@ -42,12 +42,27 @@ namespace Sources.Controllers.Presenters.Inventories
             //     inventorySlotView.Id,
             //     inventorySlotView.Amount);
             //
-            Debug.Log("Inventory Add");
+
+            if (fromSlot.OwnerId == _inventory.OwnerId)
+            {
+                _inventory.SwitchSlots(fromSlot.Position, toSlot.Position);
+                Debug.Log("Inventory SwitchSlots");
+            }
+
+            if (fromSlot.OwnerId != _inventory.OwnerId && toSlot.OwnerId == _inventory.OwnerId)
+            {
+                _inventory.AddItems(toSlot.Position, fromSlot.InventoryItem, fromSlot.Amount);
+                fromSlot.InventoryView.RemoveItems(fromSlot);
+            }
         }
 
         public void AddItem()
         {
-            
+        }
+
+        public void RemoveItems(InventorySlotView fromSlot)
+        {
+            _inventory.RemoveItems(fromSlot.Position, fromSlot.InventoryItem.Type, fromSlot.Amount);
         }
     }
 }

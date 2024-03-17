@@ -11,8 +11,10 @@ namespace Sources.Presentations.Views.Forms.Gameplay
     {
         [Required][SerializeField] private ButtonView _pauseButtonView;
         [Required][SerializeField] private ButtonView _inventoryButtonView;
+        [Required][SerializeField] private ButtonView _lootInventoryButtonView;
 
         public IButtonView PauseButton => _pauseButtonView;
         public IButtonView InventoryButton => _inventoryButtonView;
+        public IButtonView LootInventoryButton => _lootInventoryButtonView;
     }
 }

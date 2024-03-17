@@ -22,13 +22,18 @@ namespace Sources.Controllers.Presenters.Forms.Gameplays
         {
             _hudFormView.PauseButton.AddListener(OnShowPauseMenu);
             _hudFormView.InventoryButton.AddListener(OnShowInventory);
+            _hudFormView.LootInventoryButton.AddListener(OnShowLootInventory);
         }
 
         public override void Disable()
         {
             _hudFormView.PauseButton.RemoveListener(OnShowPauseMenu);
             _hudFormView.InventoryButton.RemoveListener(OnShowInventory);
+            _hudFormView.LootInventoryButton.RemoveListener(OnShowLootInventory);
         }
+
+        private void OnShowLootInventory() =>
+            _formService.Show<LootFormView>();
 
         private void OnShowPauseMenu() => 
             _formService.Show<PauseFormView>();
