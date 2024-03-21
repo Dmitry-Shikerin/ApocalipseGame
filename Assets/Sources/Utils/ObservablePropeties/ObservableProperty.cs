@@ -24,8 +24,6 @@ namespace Sources.Utils.ObservablePropeties
         }
 
         public string StringValue => Value.ToString();
-
         public T GetValue => Value;
-
     }
 }
