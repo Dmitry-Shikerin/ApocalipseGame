@@ -1,11 +1,8 @@
 ﻿using System;
 using Sources.Domain.Inventories;
-using Sources.Presentations.Views.Inventories.Items;
+using Sources.Domain.Inventories.Dto;
 using Sources.Presentations.Views.Inventories.Slots;
 using Sources.PresentationsInterfaces.Views.Inventories;
-using Sources.PresentationsInterfaces.Views.Inventories.Slots;
-using Unity.VisualScripting;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Sources.Controllers.Presenters.Inventories
@@ -31,33 +28,28 @@ namespace Sources.Controllers.Presenters.Inventories
 
         public void AddItem(PointerEventData eventData, InventorySlotView fromSlot, InventorySlotView toSlot)
         {
-            // if(eventData.pointerDrag.TryGetComponent(out InventorySlotView inventorySlotView) == false)
-            //     return;
-
-            // InventoryItemView inventoryItemView = eventData.pointerDrag.GetComponent<InventoryItemView>();
-            // IInventorySlotView inventorySlotView = inventoryItemView.InventorySlotView;
-
-            // _inventory.AddItems(
-            //     inventorySlotView.Position,
-            //     inventorySlotView.Id,
-            //     inventorySlotView.Amount);
-            //
-
-            if (fromSlot.OwnerId == _inventory.OwnerId)
+            if (fromSlot.OwnerId == _inventory.OwnerId && fromSlot.Id != toSlot.Id)
             {
                 _inventory.SwitchSlots(fromSlot.Position, toSlot.Position);
-                Debug.Log("Inventory SwitchSlots");
+                
+                return;
+            }
+
+            if (fromSlot.OwnerId == _inventory.OwnerId && fromSlot.Id == toSlot.Id)
+            {
+                AddItemsResult result = _inventory.AddItems(toSlot.Position, fromSlot.InventoryItem, fromSlot.Amount);
+                _inventory.RemoveItems(fromSlot.Position, fromSlot.InventoryItem.Type, result.ItemsAddedAmount);
+                
+                return;
             }
 
             if (fromSlot.OwnerId != _inventory.OwnerId && toSlot.OwnerId == _inventory.OwnerId)
             {
                 _inventory.AddItems(toSlot.Position, fromSlot.InventoryItem, fromSlot.Amount);
                 fromSlot.InventoryView.RemoveItems(fromSlot);
+                
+                return;
             }
-        }
-
-        public void AddItem()
-        {
         }
 
         public void RemoveItems(InventorySlotView fromSlot)

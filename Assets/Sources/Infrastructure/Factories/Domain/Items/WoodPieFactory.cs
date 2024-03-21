@@ -1,3 +1,4 @@
+using Sources.Domain.Inventories.Items.Info;
 using Sources.Domain.Items;
 using Sources.Domain.Items.Info;
 using Sources.Domain.Items.States;

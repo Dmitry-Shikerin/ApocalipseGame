@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sources.Domain.Inventories;
-using Sources.Domain.Inventories.Items;
 using Sources.Domain.Inventories.Slots;
 using Sources.Infrastructure.Factories.Views.Inventories;
-using Sources.Infrastructure.Factories.Views.Inventories.Items;
 using Sources.Infrastructure.Factories.Views.Inventories.Slots;
 using Sources.InfrastructureInterfaces.Services.Inventories;
 using Sources.Presentations.Ui.Huds;
@@ -20,21 +18,18 @@ namespace Sources.Infrastructure.Factories.Views.GameInventories
         private readonly InventoryViewFactory _inventoryViewFactory;
         private readonly IInventoryCreatorService _inventoryCreatorService;
         private readonly InventorySlotViewFactory _inventorySlotViewFactory;
-        private readonly InventoryItemViewFactory _inventoryItemViewFactory;
 
         public PlayerInventoryViewFactory(
             Hud hud,
             InventoryViewFactory inventoryViewFactory,
             IInventoryCreatorService inventoryCreatorService,
-            InventorySlotViewFactory inventorySlotViewFactory,
-            InventoryItemViewFactory inventoryItemViewFactory)
+            InventorySlotViewFactory inventorySlotViewFactory)
         {
             _hud = hud ? hud : throw new ArgumentNullException(nameof(hud));
             _inventoryViewFactory = inventoryViewFactory ?? throw new ArgumentNullException(nameof(inventoryViewFactory));
             _inventoryCreatorService = inventoryCreatorService ?? 
                                        throw new ArgumentNullException(nameof(inventoryCreatorService));
             _inventorySlotViewFactory = inventorySlotViewFactory ?? throw new ArgumentNullException(nameof(inventorySlotViewFactory));
-            _inventoryItemViewFactory = inventoryItemViewFactory ?? throw new ArgumentNullException(nameof(inventoryItemViewFactory));
         }
 
         public Inventory Create()
@@ -58,10 +53,6 @@ namespace Sources.Infrastructure.Factories.Views.GameInventories
                     _inventorySlotViewFactory.Create(inventorySlot, inventorySlotView);
                     _inventorySlotViewFactory.Create(inventorySlot, lotInventorySlotView);
                     
-                    InventoryItem inventoryItem = new InventoryItem();
-                    _inventoryItemViewFactory.Create(inventoryItem, inventorySlotView.InventoryItemView);
-                    _inventoryItemViewFactory.Create(inventoryItem, lotInventorySlotView.InventoryItemView);
-
                     slots[position] = inventorySlot;
                 }
             }

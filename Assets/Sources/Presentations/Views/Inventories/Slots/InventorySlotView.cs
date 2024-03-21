@@ -34,10 +34,7 @@ namespace Sources.Presentations.Views.Inventories.Slots
         {
             InventorySlotView fromSlot = 
                 (InventorySlotView)eventData.pointerDrag.GetComponent<InventoryItemView>().InventorySlotView;
-            // otherItemTransform.SetParent(transform);
             _inventoryView.AddItem(eventData, fromSlot, this);
-            Debug.Log($"Inventory Slot {Position.x} {Position.y} on drop");
-            // fromSlot.transform.localPosition = Vector3.zero;
         }
     }
 }

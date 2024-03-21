@@ -1,5 +1,4 @@
 ﻿using Sirenix.OdinInspector;
-using Sources.Controllers.Presenters.Inventories.Items;
 using Sources.Presentations.Views.Inventories.Slots;
 using Sources.PresentationsInterfaces.Views.Inventories.Items;
 using Sources.PresentationsInterfaces.Views.Inventories.Slots;
@@ -8,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace Sources.Presentations.Views.Inventories.Items
 {
-    public class InventoryItemView : PresentableView<InventoryItemPresenter>, IInventoryItemView
+    public class InventoryItemView : View, IInventoryItemView
     {
         [Required] [SerializeField] private RectTransform _rectTransform;
         [Required] [SerializeField] private Canvas _mainCanvas;

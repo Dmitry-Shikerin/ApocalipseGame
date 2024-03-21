@@ -18,7 +18,6 @@ namespace Sources.Presentations.Views.Inventories
         public void AddItem(PointerEventData eventData, InventorySlotView fromSlot, InventorySlotView toSlot)
         {
             Presenter.AddItem(eventData, fromSlot, toSlot);
-            Debug.Log("Inventory AddItem");
         }
 
         public void RemoveItems(InventorySlotView fromSlot)

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sources.Domain.Inventories.Items;
 using Sources.Domain.Inventories.Slots;
-using Sources.Infrastructure.Factories.Views.Inventories.Items;
 using Sources.Infrastructure.Factories.Views.Inventories.Slots;
 using Sources.InfrastructureInterfaces.Services.Inventories;
 using Sources.Presentations.Views.Inventories.Slots;
@@ -14,16 +12,12 @@ namespace Sources.Infrastructure.Services.Inventories
     public class InventoryCreatorService : IInventoryCreatorService
     {
         private readonly InventorySlotViewFactory _inventorySlotViewFactory;
-        private readonly InventoryItemViewFactory _inventoryItemViewFactory;
 
         public InventoryCreatorService(
-            InventorySlotViewFactory inventorySlotViewFactory, 
-            InventoryItemViewFactory inventoryItemViewFactory)
+            InventorySlotViewFactory inventorySlotViewFactory)
         {
             _inventorySlotViewFactory = inventorySlotViewFactory ?? 
                                         throw new ArgumentNullException(nameof(inventorySlotViewFactory));
-            _inventoryItemViewFactory = inventoryItemViewFactory ?? 
-                                        throw new ArgumentNullException(nameof(inventoryItemViewFactory));
         }
 
         public Dictionary<Vector2Int, InventorySlot> Create(Vector2Int size,
@@ -45,9 +39,6 @@ namespace Sources.Infrastructure.Services.Inventories
                     InventorySlotView inventorySlotView = slotViews.ToList()[index];
                     _inventorySlotViewFactory.Create(inventorySlot, inventorySlotView);
                     
-                    InventoryItem inventoryItem = new InventoryItem();
-                    _inventoryItemViewFactory.Create(inventoryItem, inventorySlotView.InventoryItemView);
-
                     slots[position] = inventorySlot;
                 }
             }

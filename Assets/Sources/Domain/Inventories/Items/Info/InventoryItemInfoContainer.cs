@@ -1,7 +1,8 @@
 using Sirenix.OdinInspector;
+using Sources.Domain.Items.Info;
 using UnityEngine;
 
-namespace Sources.Domain.Items.Info
+namespace Sources.Domain.Inventories.Items.Info
 {
     [CreateAssetMenu(
         fileName = "InventoryItemInfoContainer", 

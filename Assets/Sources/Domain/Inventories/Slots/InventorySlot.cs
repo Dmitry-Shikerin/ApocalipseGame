@@ -21,14 +21,15 @@ namespace Sources.Domain.Inventories.Slots
 
         public Vector2Int Position { get; }
         public string OwnerId { get; }
-
+        public string ItemId => Item != null ? Item.Info.ID : default;
+        
         public IInventoryItem Item
         {
             get => _item;
             set
             {
                 _item = value;
-                Debug.Log($"Item add {Position}");
+                Debug.Log($"Item changed {Item} {Position}");
                 ItemChanged?.Invoke();
             }
         }

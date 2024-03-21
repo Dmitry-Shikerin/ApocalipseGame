@@ -1,5 +1,6 @@
 ﻿using System;
 using Sources.Controllers.Presenters.PlayerCamera;
+using Sources.Domain.Inventories;
 using Sources.Domain.Items;
 using Sources.Domain.PlayerMovement;
 using Sources.Infrastructure.Factories.Services.FormServices;
@@ -67,11 +68,13 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
 
             _itemFactoriesProviderFactory.Create();
             
-            _playerInventoryViewFactory.Create()
-                .AddItems(new Vector2Int(1, 1), _itemFactoriesProvider.Create<WoodPie>(), 2);
-            //TODO потом исправить
-            _lootInventoryViewFactory
-                .Create("woodPie");
+            Inventory inventory = _playerInventoryViewFactory.Create();
+            inventory.AddItems(new Vector2Int(0, 0), _itemFactoriesProvider.Create<WoodPie>(), 2);
+            inventory.AddItems(new Vector2Int(0, 1), _itemFactoriesProvider.Create<WoodPie>(), 2);
+            inventory.AddItems(new Vector2Int(0, 2), _itemFactoriesProvider.Create<WoodPie>(), 2);
+            
+            
+            _lootInventoryViewFactory.Create("woodPie");
 
             _gameplayFormServiceFactory
                 .Create()

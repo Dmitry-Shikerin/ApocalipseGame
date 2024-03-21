@@ -1,7 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using Sources.Infrastructure.Factories.Controllers.Forms.Gameplay;
 using Sources.Infrastructure.Factories.Controllers.Inventories;
-using Sources.Infrastructure.Factories.Controllers.Inventories.Items;
 using Sources.Infrastructure.Factories.Controllers.Inventories.Slots;
 using Sources.Infrastructure.Factories.Controllers.PlayerAnimations;
 using Sources.Infrastructure.Factories.Controllers.PlayerMovements;
@@ -12,13 +11,11 @@ using Sources.Infrastructure.Factories.Services.FormServices;
 using Sources.Infrastructure.Factories.Services.ItemFactoriesProviders;
 using Sources.Infrastructure.Factories.Views.GameInventories;
 using Sources.Infrastructure.Factories.Views.Inventories;
-using Sources.Infrastructure.Factories.Views.Inventories.Items;
 using Sources.Infrastructure.Factories.Views.Inventories.Slots;
 using Sources.Infrastructure.Factories.Views.PlayerAnimations;
 using Sources.Infrastructure.Factories.Views.PlayerCameras;
 using Sources.Infrastructure.Factories.Views.PlayerMovements;
 using Sources.Infrastructure.Factories.Views.Scenes;
-using Sources.Infrastructure.Services;
 using Sources.Infrastructure.Services.InputService;
 using Sources.Infrastructure.Services.Inventories;
 using Sources.Infrastructure.Services.Providers;
@@ -76,8 +73,6 @@ namespace Sources.Infrastructure.DiContainers
             Container.Bind<InventoryViewFactory>().AsSingle();
             Container.Bind<InventorySlotPresenterFactory>().AsSingle();
             Container.Bind<InventorySlotViewFactory>().AsSingle();
-            Container.Bind<InventoryItemPresenterFactory>().AsSingle();
-            Container.Bind<InventoryItemViewFactory>().AsSingle();
 
             Container.Bind<PlayerInventoryViewFactory>().AsSingle();
             Container.Bind<LootInventoryViewFactory>().AsSingle();

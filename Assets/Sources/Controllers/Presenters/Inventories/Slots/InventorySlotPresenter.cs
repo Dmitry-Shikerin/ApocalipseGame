@@ -28,6 +28,7 @@ namespace Sources.Controllers.Presenters.Inventories.Slots
             OnItemSpriteChanged();
             
             _inventorySlot.ItemChanged += OnItemIdChanged;
+            _inventorySlot.ItemChanged += OnItemSpriteChanged;
             _inventorySlot.ItemAmountChanged += OnItemAmountChanged;
         }
 
@@ -41,8 +42,6 @@ namespace Sources.Controllers.Presenters.Inventories.Slots
         {
             _inventorySlotView.AmountText.Set(_inventorySlot.Amount.ToString());
             _inventorySlotView.Amount = _inventorySlot.Amount;
-            
-            OnItemSpriteChanged();
         }
 
         private void OnItemIdChanged()
@@ -55,12 +54,10 @@ namespace Sources.Controllers.Presenters.Inventories.Slots
                 return;
             }
             
-            string id = _inventorySlot.Item.Info.ID;
+            string id = _inventorySlot.ItemId;
             
             _inventorySlotView.IdText.Set(id);
             _inventorySlotView.Id = id;
-            
-            OnItemSpriteChanged();
         }
 
         private void OnItemSpriteChanged()
