@@ -29,7 +29,6 @@ namespace Sources.Domain.Inventories.Slots
             set
             {
                 _item = value;
-                Debug.Log($"Item changed {Item} {Position}");
                 ItemChanged?.Invoke();
             }
         }
