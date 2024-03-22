@@ -14,15 +14,17 @@ using Sources.Infrastructure.Factories.Views.Bears;
 using Sources.Infrastructure.Factories.Views.GameInventories;
 using Sources.Infrastructure.Factories.Views.Inventories;
 using Sources.Infrastructure.Factories.Views.Inventories.Slots;
-using Sources.Infrastructure.Factories.Views.PlayerAnimations;
-using Sources.Infrastructure.Factories.Views.PlayerCameras;
-using Sources.Infrastructure.Factories.Views.PlayerMovements;
+using Sources.Infrastructure.Factories.Views.Players;
+using Sources.Infrastructure.Factories.Views.Players.PlayerAnimations;
+using Sources.Infrastructure.Factories.Views.Players.PlayerCameras;
+using Sources.Infrastructure.Factories.Views.Players.PlayerMovements;
 using Sources.Infrastructure.Factories.Views.Scenes;
 using Sources.Infrastructure.Services.InputService;
 using Sources.Infrastructure.Services.Inventories;
 using Sources.Infrastructure.Services.Providers;
 using Sources.Infrastructure.Services.Services;
 using Sources.Infrastructure.Services.UpdateServices;
+using Sources.Infrastructure.Services.WarmUpServices;
 using Sources.InfrastructureInterfaces.Services.Inventories;
 using Sources.Presentations.Ui.Huds;
 using UnityEngine;
@@ -41,6 +43,7 @@ namespace Sources.Infrastructure.DiContainers
             BindForms();
             BindItems();
             BindBears();
+            BindAddressableServices();
         }
 
         private void BindServices()
@@ -79,6 +82,8 @@ namespace Sources.Infrastructure.DiContainers
 
             Container.Bind<PlayerInventoryViewFactory>().AsSingle();
             Container.Bind<LootInventoryViewFactory>().AsSingle();
+
+            Container.Bind<PlayerViewFactory>().AsSingle();
         }
 
         private void BindItems()
@@ -98,6 +103,14 @@ namespace Sources.Infrastructure.DiContainers
         {
             Container.Bind<BearPresenterFactory>().AsSingle();
             Container.Bind<BearViewFactory>().AsSingle();
+        }
+
+        private void BindAddressableServices()
+        {
+            Container.Bind<ICompositeAssetService>().To<CompositeAssetService>().AsSingle();
+            
+            Container.Bind<AssetService<PlayerAssetProvider>>().AsSingle();
+            Container.Bind<AssetService<InventoryItemInfoProvider>>().AsSingle();
         }
     }
 }

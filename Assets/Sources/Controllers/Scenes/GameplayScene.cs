@@ -2,6 +2,7 @@
 using Sources.ControllersInterfaces.Scenes;
 using Sources.Infrastructure.Factories.Views.Scenes;
 using Sources.Infrastructure.Services.InputService;
+using Sources.Infrastructure.Services.WarmUpServices;
 using Sources.InfrastructureInterfaces.Services.UpdateServices;
 
 namespace Sources.Controllers.Scenes
@@ -12,13 +13,15 @@ namespace Sources.Controllers.Scenes
         private readonly IUpdateService _updateService;
         private readonly InputService _inputService;
         private readonly GameplaySceneViewFactory _gameplaySceneViewFactory;
+        private readonly ICompositeAssetService _compositeAssetService;
 
         public GameplayScene
         (
             ILateUpdateService lateUpdateService,
             IUpdateService updateService,
             InputService inputService,
-            GameplaySceneViewFactory gameplaySceneViewFactory
+            GameplaySceneViewFactory gameplaySceneViewFactory,
+            ICompositeAssetService compositeAssetService
         )
         {
             _lateUpdateService = lateUpdateService ?? throw new ArgumentNullException(nameof(lateUpdateService));
@@ -26,12 +29,16 @@ namespace Sources.Controllers.Scenes
             _inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
             _gameplaySceneViewFactory = gameplaySceneViewFactory 
                                         ?? throw new ArgumentNullException(nameof(gameplaySceneViewFactory));
+            _compositeAssetService = compositeAssetService ?? 
+                                     throw new ArgumentNullException(nameof(compositeAssetService));
         }
 
         public string Name => nameof(GameplayScene);
 
-        public void Enter(object payload = null)
+        public async void Enter(object payload = null)
         {
+            await _compositeAssetService.LoadAsync();
+            
             _gameplaySceneViewFactory.Create();
         }
 
@@ -39,6 +46,8 @@ namespace Sources.Controllers.Scenes
         {
             _updateService.UnregisterAll();
             _lateUpdateService.UnregisterAll();
+            
+            _compositeAssetService.Release();
         }
 
         public void Update(float deltaTime)

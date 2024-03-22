@@ -2,6 +2,7 @@
 using Sources.Presentations.Views;
 using Sources.Presentations.Views.Forms.Gameplay;
 using Sources.Presentations.Views.Inventories;
+using Sources.Presentations.Views.Players.PlayerCameras;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -26,6 +27,11 @@ namespace Sources.Presentations.Ui.Huds
         private InventoryView _playerLootInventoryView;
         [FoldoutGroup("Inventories")] [Required] [SerializeField]
         private InventoryView _lootInventoryView;
+        
+        [Button(ButtonSizes.Large)] 
+        [FoldoutGroup("Camera")] [Required] [SerializeField]
+        private CinemachineCameraView _cinemachineCameraView;
+
 
         public HudFormView HudForm => _hudForm;
         public PauseFormView PauseForm => _pauseForm;
@@ -35,5 +41,7 @@ namespace Sources.Presentations.Ui.Huds
         public InventoryView PlayerInventoryView => _playerInventoryView;
         public InventoryView PlayerLootInventoryView => _playerLootInventoryView;
         public InventoryView LootInventoryView => _lootInventoryView;
+        
+        public CinemachineCameraView CinemachineCameraView => _cinemachineCameraView;
     }
 }
