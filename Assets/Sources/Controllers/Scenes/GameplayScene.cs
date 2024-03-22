@@ -3,6 +3,7 @@ using Sources.ControllersInterfaces.Scenes;
 using Sources.Infrastructure.Factories.Views.Scenes;
 using Sources.Infrastructure.Services.InputService;
 using Sources.Infrastructure.Services.WarmUpServices;
+using Sources.InfrastructureInterfaces.Services.SceneLoaderServices;
 using Sources.InfrastructureInterfaces.Services.UpdateServices;
 
 namespace Sources.Controllers.Scenes
@@ -14,15 +15,15 @@ namespace Sources.Controllers.Scenes
         private readonly InputService _inputService;
         private readonly GameplaySceneViewFactory _gameplaySceneViewFactory;
         private readonly ICompositeAssetService _compositeAssetService;
+        private readonly ISceneLoaderService _sceneLoaderService;
 
-        public GameplayScene
-        (
+        public GameplayScene(
             ILateUpdateService lateUpdateService,
             IUpdateService updateService,
             InputService inputService,
             GameplaySceneViewFactory gameplaySceneViewFactory,
-            ICompositeAssetService compositeAssetService
-        )
+            ICompositeAssetService compositeAssetService,
+            ISceneLoaderService sceneLoaderService)
         {
             _lateUpdateService = lateUpdateService ?? throw new ArgumentNullException(nameof(lateUpdateService));
             _updateService = updateService ?? throw new ArgumentNullException(nameof(updateService));
@@ -31,6 +32,7 @@ namespace Sources.Controllers.Scenes
                                         ?? throw new ArgumentNullException(nameof(gameplaySceneViewFactory));
             _compositeAssetService = compositeAssetService ?? 
                                      throw new ArgumentNullException(nameof(compositeAssetService));
+            _sceneLoaderService = sceneLoaderService ?? throw new ArgumentNullException(nameof(sceneLoaderService));
         }
 
         public string Name => nameof(GameplayScene);
@@ -48,6 +50,7 @@ namespace Sources.Controllers.Scenes
             _lateUpdateService.UnregisterAll();
             
             _compositeAssetService.Release();
+            _sceneLoaderService.Unload();
         }
 
         public void Update(float deltaTime)

@@ -4,6 +4,7 @@ using Sources.Domain.Items;
 using Sources.Domain.Items.Info;
 using Sources.Domain.Items.States;
 using Sources.Infrastructure.Services.WarmUpServices;
+using Sources.Infrastructure.Services.WarmUpServices.Concrete;
 using UnityEngine;
 
 namespace Sources.Infrastructure.Factories.Domain.Items
@@ -20,15 +21,8 @@ namespace Sources.Infrastructure.Factories.Domain.Items
 
         public WoodPie Create()
         {
-            // //TODO этот конфиг нужно загружать в одном местее
-            InventoryItemInfoContainer inventoryItemInfoContainer = 
-                Resources.Load<InventoryItemInfoContainer>(
-                    "Configs/Items/Containers/InventoryItemInfoContainer");
-            
-            // InventoryItemInfo inventoryItemInfo = 
-            //     _inventoryItemInfoProvider.Provider.InventoryItemInfoContainer.WoodPieItemInfo;
             InventoryItemInfo inventoryItemInfo = 
-                inventoryItemInfoContainer.WoodPieItemInfo;
+                _inventoryItemInfoProvider.Provider.InventoryItemInfoContainer.WoodPieItemInfo;
             
             return new WoodPie(inventoryItemInfo, new InventoryItemState());
         }

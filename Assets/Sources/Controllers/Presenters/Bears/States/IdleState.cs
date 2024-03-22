@@ -1,7 +1,6 @@
 ﻿using System;
 using Sources.Infrastructure.StateMachines.FiniteStateMachines.States;
 using Sources.PresentationsInterfaces.Views.Bears;
-using UnityEngine;
 
 namespace Sources.Controllers.Presenters.Bears.States
 {
@@ -17,7 +16,6 @@ namespace Sources.Controllers.Presenters.Bears.States
         public override void Enter()
         {
             _bearAnimationView.PlayIdle();
-            Debug.Log("Bear enter IdleState");
         }
 
         public override void Exit()

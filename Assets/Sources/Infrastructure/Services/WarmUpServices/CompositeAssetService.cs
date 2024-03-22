@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using Sirenix.Utilities;
+using Sources.Infrastructure.Services.WarmUpServices.Concrete;
 
 namespace Sources.Infrastructure.Services.WarmUpServices
 {
@@ -9,12 +10,14 @@ namespace Sources.Infrastructure.Services.WarmUpServices
         
         public CompositeAssetService(
             AssetService<PlayerAssetProvider> playerAssetProvider,
-            AssetService<InventoryItemInfoProvider> inventoryItemInfoProvider)
+            AssetService<InventoryItemInfoProvider> inventoryItemInfoProvider,
+            AssetService<BearAssetProvider> bearAssetProvider)
         {
             _assetServices = new IAssetService[]
             {
                    playerAssetProvider,
-                   // inventoryItemInfoProvider
+                   inventoryItemInfoProvider,
+                   bearAssetProvider,
             };
         }
         

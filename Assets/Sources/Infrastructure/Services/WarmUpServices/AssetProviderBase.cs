@@ -30,7 +30,7 @@ namespace Sources.Infrastructure.Services.WarmUpServices
         //TODO не умеет загружать скриптейбл обджект?
         protected async Task<T> LoadObjectAsync<T>(string address) where T : Object
         {
-            Object asset = await Addressables.LoadAssetAsync<GameObject>(address).Task;
+            Object asset = await Addressables.LoadAssetAsync<Object>(address).Task;
             
             if(asset == null)
                 throw new InvalidOperationException(nameof(asset));
@@ -43,7 +43,11 @@ namespace Sources.Infrastructure.Services.WarmUpServices
             return component;
         }
 
-        public void Release() => 
+        public void Release()
+        {
             _gameObjects.ForEach(gameObject => Addressables.ReleaseInstance(gameObject));
+            //TODO так ли релизить обджекты?
+            _objects.ForEach(Addressables.Release);
+        }
     }
 }

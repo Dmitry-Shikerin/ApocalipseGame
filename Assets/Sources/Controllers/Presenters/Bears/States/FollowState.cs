@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading;
-using Cysharp.Threading.Tasks;
-using Sources.Domain.PlayerMovement;
+using Sources.Infrastructure.Services.Providers.ModelProviders;
 using Sources.Infrastructure.StateMachines.FiniteStateMachines.States;
 using Sources.PresentationsInterfaces.Views.Bears;
-using UnityEngine;
 
 namespace Sources.Controllers.Presenters.Bears.States
 {
@@ -12,15 +10,19 @@ namespace Sources.Controllers.Presenters.Bears.States
     {
         private readonly IBearAnimationView _bearAnimationView;
         private readonly IBearView _bearView;
-        private readonly PlayerMovement _playerMovement;
+        private readonly IPlayerMovementProvider _playerMovementProvider;
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        public FollowState(IBearAnimationView bearAnimationView, IBearView bearView, PlayerMovement playerMovement)
+        public FollowState(
+            IBearAnimationView bearAnimationView, 
+            IBearView bearView, 
+            IPlayerMovementProvider playerMovementProvider)
         {
             _bearAnimationView = bearAnimationView ?? throw new ArgumentNullException(nameof(bearAnimationView));
             _bearView = bearView ?? throw new ArgumentNullException(nameof(bearView));
-            _playerMovement = playerMovement ?? throw new ArgumentNullException(nameof(playerMovement));
+            _playerMovementProvider = playerMovementProvider 
+                                      ?? throw new ArgumentNullException(nameof(playerMovementProvider));
         }
 
         public override void Enter()
@@ -28,7 +30,6 @@ namespace Sources.Controllers.Presenters.Bears.States
             _cancellationTokenSource = new CancellationTokenSource();
 
             _bearAnimationView.PlayWalk();
-            Debug.Log("Bear enter WalkState");
         }
 
         public override void Exit()
@@ -37,7 +38,7 @@ namespace Sources.Controllers.Presenters.Bears.States
 
         public override void Update(float deltaTime)
         {
-            _bearView.Move(_playerMovement.Position);
+            _bearView.Move(_playerMovementProvider.Position);
         }
     }
 }

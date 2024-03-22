@@ -17,14 +17,13 @@ namespace Sources.Controllers.Presenters.PlayerMovements
         private readonly IUpdateRegister _updateRegister;
         private readonly IInputService _inputService;
 
-        public PlayerMovementPresenter
-        (
+        public PlayerMovementPresenter(
             PlayerMovement playerMovement,
             IPlayerMovementView playerMovementView,
             IUpdateRegister updateRegister,
             IInputService inputService,
-            IContextState firstState
-        ) : base(firstState)
+            IContextState firstState) 
+            : base(firstState)
         {
             _playerMovement = playerMovement ?? throw new ArgumentNullException(nameof(playerMovement));
             _playerMovementView = playerMovementView ?? throw new ArgumentNullException(nameof(playerMovementView));

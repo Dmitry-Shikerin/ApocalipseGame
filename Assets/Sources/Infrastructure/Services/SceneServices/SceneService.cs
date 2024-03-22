@@ -17,16 +17,11 @@ namespace Sources.Infrastructure.Services.SceneServices
         private readonly SceneStateMachine _stateMachine;
         private readonly IReadOnlyDictionary<string, Func<object, SceneContext, UniTask<IScene>>> _sceneFactories;
 
-        public SceneService
-        (
-            IReadOnlyDictionary<string, Func<object, SceneContext, UniTask<IScene>>> sceneFactories
-        )
+        public SceneService(
+            IReadOnlyDictionary<string, Func<object, SceneContext, UniTask<IScene>>> sceneFactories)
         {
             _sceneFactories = sceneFactories ?? throw new ArgumentNullException(nameof(sceneFactories));
             _stateMachine = new SceneStateMachine();
-
-            ProjectContext projectContext = Object.FindObjectOfType<ProjectContext>();
-            projectContext.Container.BindInterfacesAndSelfTo<SceneService>().FromInstance(this).AsSingle();
         }
 
         public void AddBeforeSceneChangeHandler(Func<string, UniTask> handler) => 

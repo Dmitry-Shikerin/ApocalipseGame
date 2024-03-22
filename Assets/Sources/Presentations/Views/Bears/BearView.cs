@@ -8,9 +8,11 @@ namespace Sources.Presentations.Views.Bears
 {
     public class BearView : PresentableView<BearPresenter>, IBearView
     {
+        [Required] [SerializeField] private BearAnimationView _bearAnimationView;
         [Required] [SerializeField] private NavMeshAgent _navMeshAgent;
         
         public Vector3 Position => transform.position;
+        public BearAnimationView BearAnimationView => _bearAnimationView;
         
         public void Move(Vector3 destination)
         {

@@ -1,4 +1,6 @@
-﻿using Zenject;
+﻿using Sources.Infrastructure.Services.SceneLoaderServices;
+using Sources.InfrastructureInterfaces.Services.SceneLoaderServices;
+using Zenject;
 
 namespace Sources.Infrastructure.DiContainers
 {
@@ -6,6 +8,7 @@ namespace Sources.Infrastructure.DiContainers
     {
         public override void InstallBindings()
         {
+            Container.Bind<ISceneLoaderService>().To<AddressableSceneLoaderService>().AsSingle();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using Sources.Domain.Inventories.Items.Info;
 
-namespace Sources.Infrastructure.Services.WarmUpServices
+namespace Sources.Infrastructure.Services.WarmUpServices.Concrete
 {
     public class InventoryItemInfoProvider : AssetProviderBase
     {

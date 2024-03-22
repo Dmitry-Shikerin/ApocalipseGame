@@ -6,6 +6,7 @@ using Sources.Infrastructure.Factories.Views.Scenes;
 using Sources.Infrastructure.Services.InputService;
 using Sources.Infrastructure.Services.WarmUpServices;
 using Sources.InfrastructureInterfaces.Factories.Controllers.Scenes;
+using Sources.InfrastructureInterfaces.Services.SceneLoaderServices;
 using Sources.InfrastructureInterfaces.Services.UpdateServices;
 
 namespace Sources.Infrastructure.Factories.Controllers.Scenes
@@ -17,13 +18,15 @@ namespace Sources.Infrastructure.Factories.Controllers.Scenes
         private readonly InputService _inputService;
         private readonly GameplaySceneViewFactory _gameplaySceneViewFactory;
         private readonly ICompositeAssetService _compositeAssetService;
+        private readonly ISceneLoaderService _sceneLoaderService;
 
         public GameplaySceneFactory(
             ILateUpdateService lateUpdateService,
             IUpdateService updateService,
             InputService inputService,
             GameplaySceneViewFactory gameplaySceneViewFactory,
-            ICompositeAssetService compositeAssetService)
+            ICompositeAssetService compositeAssetService,
+            ISceneLoaderService sceneLoaderService)
         {
             _lateUpdateService = lateUpdateService ?? throw new ArgumentNullException(nameof(lateUpdateService));
             _updateService = updateService ?? throw new ArgumentNullException(nameof(updateService));
@@ -32,6 +35,7 @@ namespace Sources.Infrastructure.Factories.Controllers.Scenes
                                         ?? throw new ArgumentNullException(nameof(gameplaySceneViewFactory));
             _compositeAssetService = compositeAssetService ??
                                      throw new ArgumentNullException(nameof(compositeAssetService));
+            _sceneLoaderService = sceneLoaderService ?? throw new ArgumentNullException(nameof(sceneLoaderService));
         }
 
         public async UniTask<IScene> Create(object payload)
@@ -42,7 +46,8 @@ namespace Sources.Infrastructure.Factories.Controllers.Scenes
                 _updateService,
                 _inputService,
                 _gameplaySceneViewFactory,
-                _compositeAssetService
+                _compositeAssetService,
+                _sceneLoaderService
             );
         }
     }

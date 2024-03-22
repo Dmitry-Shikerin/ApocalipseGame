@@ -14,7 +14,7 @@ namespace Sources.App.Core
             DontDestroyOnLoad(this);
 
         private async void Start() => 
-            await _sceneService.ChangeSceneAsync(SceneManager.GetActiveScene().name, null);
+            await _sceneService.ChangeSceneAsync("Gameplay", null);
 
         private void Update() => 
             _sceneService?.Update(Time.deltaTime);

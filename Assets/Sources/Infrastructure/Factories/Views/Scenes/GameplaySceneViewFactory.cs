@@ -12,6 +12,7 @@ using Sources.Infrastructure.Factories.Views.Players;
 using Sources.Infrastructure.Factories.Views.Players.PlayerAnimations;
 using Sources.Infrastructure.Factories.Views.Players.PlayerCameras;
 using Sources.Infrastructure.Factories.Views.Players.PlayerMovements;
+using Sources.Infrastructure.Services.Providers.ModelProviders;
 using Sources.InfrastructureInterfaces.Services.Providers;
 using Sources.Presentations.Ui.Huds;
 using Sources.Presentations.Views.Forms.Gameplay;
@@ -32,6 +33,7 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
         private readonly IItemFactoriesProvider _itemFactoriesProvider;
         private readonly BearViewFactory _bearViewFactory;
         private readonly PlayerViewFactory _playerViewFactory;
+        private readonly PlayerMovementProvider _playerMovementProvider;
 
         public GameplaySceneViewFactory(
             Hud hud,
@@ -44,7 +46,8 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             LootInventoryViewFactory lootInventoryViewFactory,
             IItemFactoriesProvider itemFactoriesProvider,
             BearViewFactory bearViewFactory,
-            PlayerViewFactory playerViewFactory)
+            PlayerViewFactory playerViewFactory,
+            PlayerMovementProvider playerMovementProvider)
         {
             _hud = hud ? hud : throw new ArgumentNullException(nameof(hud));
             _gameplayFormServiceFactory = gameplayFormServiceFactory ?? 
@@ -64,20 +67,18 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
                                      throw new ArgumentNullException(nameof(itemFactoriesProvider));
             _bearViewFactory = bearViewFactory ?? throw new ArgumentNullException(nameof(bearViewFactory));
             _playerViewFactory = playerViewFactory ?? throw new ArgumentNullException(nameof(playerViewFactory));
+            _playerMovementProvider = playerMovementProvider 
+                                      ?? throw new ArgumentNullException(nameof(playerMovementProvider));
         }
 
         public void Create()
         {
             PlayerMovement playerMovement = new PlayerMovement();
-            // _playerMovementViewFactory.Create(playerMovement);
-            // _playerAnimationViewFactory.Create(playerMovement);
+            _playerMovementProvider.Set(playerMovement);
             _playerViewFactory.Create(playerMovement);
-
-            // PlayerCamera playerCamera = new PlayerCamera(playerMovement);
-            // _playerCameraViewFactory.Create(playerCamera);
-
+            
             Bear bear = new Bear();
-            _bearViewFactory.Create(bear, playerMovement);
+            _bearViewFactory.Create(bear);
 
             _itemFactoriesProviderFactory.Create();
             

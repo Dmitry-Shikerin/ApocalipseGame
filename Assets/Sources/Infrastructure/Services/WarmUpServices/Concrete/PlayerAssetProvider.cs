@@ -1,9 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
-using Sources.Presentations.Views.PlayerAnimation;
-using Sources.Presentations.Views.PlayerMovements;
 using Sources.Presentations.Views.Players;
 
-namespace Sources.Infrastructure.Services.WarmUpServices
+namespace Sources.Infrastructure.Services.WarmUpServices.Concrete
 {
     public class PlayerAssetProvider : AssetProviderBase
     {
@@ -11,7 +9,7 @@ namespace Sources.Infrastructure.Services.WarmUpServices
 
         public override async UniTask LoadAsync()
         {
-            PlayerView =  await LoadAssetAsync<PlayerView>("PlayerView");
+            PlayerView =  await LoadAssetAsync<PlayerView>(nameof(PlayerView));
         }
      }
 }

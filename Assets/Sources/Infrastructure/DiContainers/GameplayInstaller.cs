@@ -22,9 +22,11 @@ using Sources.Infrastructure.Factories.Views.Scenes;
 using Sources.Infrastructure.Services.InputService;
 using Sources.Infrastructure.Services.Inventories;
 using Sources.Infrastructure.Services.Providers;
+using Sources.Infrastructure.Services.Providers.ModelProviders;
 using Sources.Infrastructure.Services.Services;
 using Sources.Infrastructure.Services.UpdateServices;
 using Sources.Infrastructure.Services.WarmUpServices;
+using Sources.Infrastructure.Services.WarmUpServices.Concrete;
 using Sources.InfrastructureInterfaces.Services.Inventories;
 using Sources.Presentations.Ui.Huds;
 using UnityEngine;
@@ -44,6 +46,7 @@ namespace Sources.Infrastructure.DiContainers
             BindItems();
             BindBears();
             BindAddressableServices();
+            BindModelProviders();
         }
 
         private void BindServices()
@@ -91,6 +94,11 @@ namespace Sources.Infrastructure.DiContainers
             Container.Bind<WoodPieFactory>().AsSingle();
         }
 
+        private void BindModelProviders()
+        {
+            Container.BindInterfacesAndSelfTo<PlayerMovementProvider>().AsSingle();
+        }
+
         private void BindForms()
         {
             Container.Bind<HudFormPresenterFactory>().AsSingle();
@@ -111,6 +119,7 @@ namespace Sources.Infrastructure.DiContainers
             
             Container.Bind<AssetService<PlayerAssetProvider>>().AsSingle();
             Container.Bind<AssetService<InventoryItemInfoProvider>>().AsSingle();
+            Container.Bind<AssetService<BearAssetProvider>>().AsSingle();
         }
     }
 }
