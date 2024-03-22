@@ -1,10 +1,12 @@
 ﻿using System;
 using Sources.Controllers.Presenters.PlayerCamera;
+using Sources.Domain.Bears;
 using Sources.Domain.Inventories;
 using Sources.Domain.Items;
 using Sources.Domain.PlayerMovement;
 using Sources.Infrastructure.Factories.Services.FormServices;
 using Sources.Infrastructure.Factories.Services.ItemFactoriesProviders;
+using Sources.Infrastructure.Factories.Views.Bears;
 using Sources.Infrastructure.Factories.Views.GameInventories;
 using Sources.Infrastructure.Factories.Views.PlayerAnimations;
 using Sources.Infrastructure.Factories.Views.PlayerCameras;
@@ -27,6 +29,7 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
         private readonly ItemFactoriesProviderFactory _itemFactoriesProviderFactory;
         private readonly LootInventoryViewFactory _lootInventoryViewFactory;
         private readonly IItemFactoriesProvider _itemFactoriesProvider;
+        private readonly BearViewFactory _bearViewFactory;
 
         public GameplaySceneViewFactory(
             Hud hud,
@@ -37,7 +40,8 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             PlayerInventoryViewFactory playerInventoryViewFactory,
             ItemFactoriesProviderFactory itemFactoriesProviderFactory,
             LootInventoryViewFactory lootInventoryViewFactory,
-            IItemFactoriesProvider itemFactoriesProvider)
+            IItemFactoriesProvider itemFactoriesProvider,
+            BearViewFactory bearViewFactory)
         {
             _hud = hud ? hud : throw new ArgumentNullException(nameof(hud));
             _gameplayFormServiceFactory = gameplayFormServiceFactory ?? 
@@ -55,6 +59,7 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             _lootInventoryViewFactory = lootInventoryViewFactory;
             _itemFactoriesProvider = itemFactoriesProvider ??
                                      throw new ArgumentNullException(nameof(itemFactoriesProvider));
+            _bearViewFactory = bearViewFactory ?? throw new ArgumentNullException(nameof(bearViewFactory));
         }
 
         public void Create()
@@ -66,13 +71,15 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             PlayerCamera playerCamera = new PlayerCamera(playerMovement);
             _playerCameraViewFactory.Create(playerCamera);
 
+            Bear bear = new Bear();
+            _bearViewFactory.Create(bear, playerMovement);
+
             _itemFactoriesProviderFactory.Create();
             
             Inventory inventory = _playerInventoryViewFactory.Create();
             inventory.AddItems(new Vector2Int(0, 0), _itemFactoriesProvider.Create<WoodPie>(), 2);
             inventory.AddItems(new Vector2Int(0, 1), _itemFactoriesProvider.Create<WoodPie>(), 2);
             inventory.AddItems(new Vector2Int(0, 2), _itemFactoriesProvider.Create<WoodPie>(), 2);
-            
             
             _lootInventoryViewFactory.Create("woodPie");
 

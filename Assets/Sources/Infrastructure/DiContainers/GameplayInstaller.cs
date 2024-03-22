@@ -1,4 +1,5 @@
 ﻿using Sirenix.OdinInspector;
+using Sources.Infrastructure.Factories.Controllers.Bears;
 using Sources.Infrastructure.Factories.Controllers.Forms.Gameplay;
 using Sources.Infrastructure.Factories.Controllers.Inventories;
 using Sources.Infrastructure.Factories.Controllers.Inventories.Slots;
@@ -9,6 +10,7 @@ using Sources.Infrastructure.Factories.Domain.Items;
 using Sources.Infrastructure.Factories.PlayerCameras;
 using Sources.Infrastructure.Factories.Services.FormServices;
 using Sources.Infrastructure.Factories.Services.ItemFactoriesProviders;
+using Sources.Infrastructure.Factories.Views.Bears;
 using Sources.Infrastructure.Factories.Views.GameInventories;
 using Sources.Infrastructure.Factories.Views.Inventories;
 using Sources.Infrastructure.Factories.Views.Inventories.Slots;
@@ -38,6 +40,7 @@ namespace Sources.Infrastructure.DiContainers
             BindPlayer();
             BindForms();
             BindItems();
+            BindBears();
         }
 
         private void BindServices()
@@ -89,6 +92,12 @@ namespace Sources.Infrastructure.DiContainers
             Container.Bind<PauseFormPresenterFactory>().AsSingle();
             Container.Bind<InventoryFormPresenterFactory>().AsSingle();
             Container.Bind<LootFormPresenterFactory>().AsSingle();
+        }
+
+        private void BindBears()
+        {
+            Container.Bind<BearPresenterFactory>().AsSingle();
+            Container.Bind<BearViewFactory>().AsSingle();
         }
     }
 }
