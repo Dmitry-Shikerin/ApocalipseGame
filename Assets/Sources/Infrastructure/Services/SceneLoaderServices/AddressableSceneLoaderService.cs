@@ -7,13 +7,24 @@ namespace Sources.Infrastructure.Services.SceneLoaderServices
 {
     public class AddressableSceneLoaderService : ISceneLoaderService
     {
-        private SceneInstance _currentScene;
-        
-        public async UniTask LoadAsync(string sceneName) => 
-            _currentScene = await Addressables.LoadSceneAsync(sceneName).Task;
+        private SceneInstance? _currentScene;
 
-        //TODO сделать ли его асинхронным?
-        public void Unload() => 
-            Addressables.UnloadSceneAsync(_currentScene);
+        public async UniTask LoadAsync(string sceneName)
+        {
+            if(_currentScene != null) 
+                await Unload();
+
+            _currentScene = await Addressables.LoadSceneAsync(sceneName);
+        }
+
+        public async UniTask Unload()
+        {
+            if(_currentScene is not SceneInstance scene) 
+                return;
+            
+            await Addressables.UnloadSceneAsync(scene);
+
+            _currentScene = null;
+        }
     }
 }

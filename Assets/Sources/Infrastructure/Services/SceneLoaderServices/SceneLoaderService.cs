@@ -9,7 +9,7 @@ namespace Sources.Infrastructure.Services.SceneLoaderServices
         public async UniTask LoadAsync(string sceneName) => 
             await SceneManager.LoadSceneAsync(sceneName);
 
-        public void Unload()
+        public async UniTask Unload()
         {
         }
     }

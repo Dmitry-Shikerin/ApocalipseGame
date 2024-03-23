@@ -53,7 +53,7 @@ namespace Sources.Infrastructure.DiContainers
         {
             Container.BindInterfacesAndSelfTo<UpdateService>().AsSingle();
             Container.BindInterfacesAndSelfTo<LateUpdateService>().AsSingle();
-            Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<NewInputService>().AsSingle();
             Container.BindInterfacesAndSelfTo<FormService>().AsSingle();
             Container.Bind<IInventoryCreatorService>().To<InventoryCreatorService>().AsSingle();
 

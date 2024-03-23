@@ -15,7 +15,7 @@ namespace Sources.Infrastructure.Factories.Controllers.Scenes
     {
         private readonly ILateUpdateService _lateUpdateService;
         private readonly IUpdateService _updateService;
-        private readonly InputService _inputService;
+        private readonly NewInputService _inputService;
         private readonly GameplaySceneViewFactory _gameplaySceneViewFactory;
         private readonly ICompositeAssetService _compositeAssetService;
         private readonly ISceneLoaderService _sceneLoaderService;
@@ -23,7 +23,7 @@ namespace Sources.Infrastructure.Factories.Controllers.Scenes
         public GameplaySceneFactory(
             ILateUpdateService lateUpdateService,
             IUpdateService updateService,
-            InputService inputService,
+            NewInputService inputService,
             GameplaySceneViewFactory gameplaySceneViewFactory,
             ICompositeAssetService compositeAssetService,
             ISceneLoaderService sceneLoaderService)

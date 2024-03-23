@@ -31,7 +31,8 @@ namespace Sources.Infrastructure.Factories.Controllers.Bears
             IBearAnimationView bearAnimationView)
         {
             IdleState idleState = new IdleState(bearAnimationView);
-            FollowState followState = new FollowState(bearAnimationView, bearView, _playerMovementProvider);
+            FollowState followState = new FollowState(
+                bear, bearAnimationView, bearView, _playerMovementProvider);
 
             FiniteTransitionBase toFollowTransition = new FiniteTransitionBase(
                 followState,

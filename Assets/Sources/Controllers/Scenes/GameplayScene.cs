@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Sources.ControllersInterfaces.Scenes;
 using Sources.Infrastructure.Factories.Views.Scenes;
 using Sources.Infrastructure.Services.InputService;
@@ -12,7 +13,7 @@ namespace Sources.Controllers.Scenes
     {
         private readonly ILateUpdateService _lateUpdateService;
         private readonly IUpdateService _updateService;
-        private readonly InputService _inputService;
+        private readonly NewInputService _inputService;
         private readonly GameplaySceneViewFactory _gameplaySceneViewFactory;
         private readonly ICompositeAssetService _compositeAssetService;
         private readonly ISceneLoaderService _sceneLoaderService;
@@ -20,7 +21,7 @@ namespace Sources.Controllers.Scenes
         public GameplayScene(
             ILateUpdateService lateUpdateService,
             IUpdateService updateService,
-            InputService inputService,
+            NewInputService inputService,
             GameplaySceneViewFactory gameplaySceneViewFactory,
             ICompositeAssetService compositeAssetService,
             ISceneLoaderService sceneLoaderService)
@@ -39,18 +40,21 @@ namespace Sources.Controllers.Scenes
 
         public async void Enter(object payload = null)
         {
-            await _compositeAssetService.LoadAsync();
+            await UniTask.WhenAll(
+                _compositeAssetService.LoadAsync());
             
             _gameplaySceneViewFactory.Create();
         }
 
-        public void Exit()
+        public async void Exit()
         {
             _updateService.UnregisterAll();
             _lateUpdateService.UnregisterAll();
             
             _compositeAssetService.Release();
-            _sceneLoaderService.Unload();
+
+            await UniTask.WhenAll(
+                _sceneLoaderService.Unload());
         }
 
         public void Update(float deltaTime)

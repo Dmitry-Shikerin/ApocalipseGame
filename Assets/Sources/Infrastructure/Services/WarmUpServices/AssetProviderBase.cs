@@ -27,7 +27,6 @@ namespace Sources.Infrastructure.Services.WarmUpServices
             return component;
         }
         
-        //TODO не умеет загружать скриптейбл обджект?
         protected async Task<T> LoadObjectAsync<T>(string address) where T : Object
         {
             Object asset = await Addressables.LoadAssetAsync<Object>(address).Task;
@@ -45,8 +44,7 @@ namespace Sources.Infrastructure.Services.WarmUpServices
 
         public void Release()
         {
-            _gameObjects.ForEach(gameObject => Addressables.ReleaseInstance(gameObject));
-            //TODO так ли релизить обджекты?
+            _gameObjects.ForEach(Addressables.Release);
             _objects.ForEach(Addressables.Release);
         }
     }
