@@ -1,9 +1,6 @@
 ﻿using Sources.InfrastructureInterfaces.Services.InputServices;
 using Sources.InfrastructureInterfaces.StateMachines.States;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Composites;
-using UnityEngine.InputSystem.Controls;
 using PlayerInput = Sources.Domain.Dto.PlayerInput;
 
 namespace Sources.Infrastructure.Services.InputService
