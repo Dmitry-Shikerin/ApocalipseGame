@@ -2,7 +2,6 @@
 using Sources.Controllers.Presenters;
 using Sources.Controllers.Presenters.PlayerCamera;
 using Sources.InfrastructureInterfaces.Services.UpdateServices;
-using Sources.Presentations.Views.PlayerCameras;
 using Sources.PresentationsInterfaces.Views.PlayerCameras;
 using UnityEngine;
 

@@ -1,6 +1,8 @@
 ﻿using Sirenix.OdinInspector;
 using Sources.Infrastructure.Factories.Controllers.Bears;
+using Sources.Infrastructure.Factories.Controllers.Enemies;
 using Sources.Infrastructure.Factories.Controllers.Forms.Gameplay;
+using Sources.Infrastructure.Factories.Controllers.Healths;
 using Sources.Infrastructure.Factories.Controllers.Inventories;
 using Sources.Infrastructure.Factories.Controllers.Inventories.Slots;
 using Sources.Infrastructure.Factories.Controllers.PlayerAnimations;
@@ -11,7 +13,9 @@ using Sources.Infrastructure.Factories.PlayerCameras;
 using Sources.Infrastructure.Factories.Services.FormServices;
 using Sources.Infrastructure.Factories.Services.ItemFactoriesProviders;
 using Sources.Infrastructure.Factories.Views.Bears;
+using Sources.Infrastructure.Factories.Views.Enemies;
 using Sources.Infrastructure.Factories.Views.GameInventories;
+using Sources.Infrastructure.Factories.Views.Healths;
 using Sources.Infrastructure.Factories.Views.Inventories;
 using Sources.Infrastructure.Factories.Views.Inventories.Slots;
 using Sources.Infrastructure.Factories.Views.Players;
@@ -21,6 +25,8 @@ using Sources.Infrastructure.Factories.Views.Players.PlayerMovements;
 using Sources.Infrastructure.Factories.Views.Scenes;
 using Sources.Infrastructure.Services.InputService;
 using Sources.Infrastructure.Services.Inventories;
+using Sources.Infrastructure.Services.Linecasts;
+using Sources.Infrastructure.Services.OverlapServices;
 using Sources.Infrastructure.Services.Providers;
 using Sources.Infrastructure.Services.Providers.ModelProviders;
 using Sources.Infrastructure.Services.Services;
@@ -47,6 +53,8 @@ namespace Sources.Infrastructure.DiContainers
             BindBears();
             BindAddressableServices();
             BindModelProviders();
+            BindEnemies();
+            BindCommons();
         }
 
         private void BindServices()
@@ -56,6 +64,8 @@ namespace Sources.Infrastructure.DiContainers
             Container.BindInterfacesAndSelfTo<NewInputService>().AsSingle();
             Container.BindInterfacesAndSelfTo<FormService>().AsSingle();
             Container.Bind<IInventoryCreatorService>().To<InventoryCreatorService>().AsSingle();
+            Container.Bind<OverlapService>().AsSingle();
+            Container.Bind<LinecastService>().AsSingle();
 
             Container.Bind<Hud>().FromInstance(_hud);
 
@@ -89,6 +99,12 @@ namespace Sources.Infrastructure.DiContainers
             Container.Bind<PlayerViewFactory>().AsSingle();
         }
 
+        private void BindCommons()
+        {
+            Container.Bind<HealthUiPresenterFactory>().AsSingle();
+            Container.Bind<HealthUiFactory>().AsSingle();
+        }
+
         private void BindItems()
         {
             Container.Bind<WoodPieFactory>().AsSingle();
@@ -97,6 +113,17 @@ namespace Sources.Infrastructure.DiContainers
         private void BindModelProviders()
         {
             Container.BindInterfacesAndSelfTo<PlayerMovementProvider>().AsSingle();
+        }
+        
+        private void BindEnemies()
+        {
+            Container.Bind<EnemyCommonViewFactory>().AsSingle();
+            
+            Container.Bind<EnemyHealthPresenterFactory>().AsSingle();
+            Container.Bind<EnemyHealthViewFactory>().AsSingle();
+
+            Container.Bind<EnemyPresenterFactory>().AsSingle();
+            Container.Bind<EnemyViewFactory>().AsSingle();
         }
 
         private void BindForms()

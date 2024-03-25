@@ -25,14 +25,14 @@ namespace Sources.Infrastructure.Factories.Views.Bears
             _bearAssetProvider = bearAssetProvider ?? throw new ArgumentNullException(nameof(bearAssetProvider));
         }
 
-        public IBearView Create(Bear bear)
+        public IBearView Create(Bear bear, BearAttack bearAttack)
         {
             BearView bearView = Object.Instantiate(_bearAssetProvider.Provider.BearView);
             
             BearAnimationView bearAnimationView = bearView.BearAnimationView;
             
             BearPresenter bearPresenter = _bearPresenterFactory.Create(
-                bear, bearView, bearAnimationView);
+                bear, bearView, bearAnimationView, bearAttack);
             
             bearView.Construct(bearPresenter);
 

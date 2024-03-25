@@ -1,6 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using Sources.Controllers.Presenters.Bears;
 using Sources.PresentationsInterfaces.Views.Bears;
+using Sources.PresentationsInterfaces.Views.Enemies;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,11 +13,18 @@ namespace Sources.Presentations.Views.Bears
         [Required] [SerializeField] private NavMeshAgent _navMeshAgent;
         
         public Vector3 Position => transform.position;
+        public float StoppingDistance => _navMeshAgent.stoppingDistance;
         public BearAnimationView BearAnimationView => _bearAnimationView;
+        public IEnemyHealthView EnemyHealthView { get; set; }
         
         public void Move(Vector3 destination)
         {
             _navMeshAgent.destination = destination;
+        }
+
+        public void SetStoppingDistance(float distance)
+        {
+            _navMeshAgent.stoppingDistance = distance;
         }
     }
 }

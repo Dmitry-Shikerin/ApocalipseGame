@@ -1,12 +1,14 @@
 ﻿using System;
 using Sources.Controllers.Presenters.PlayerCamera;
 using Sources.Domain.Bears;
+using Sources.Domain.Enemies;
 using Sources.Domain.Inventories;
 using Sources.Domain.Items;
 using Sources.Domain.PlayerMovement;
 using Sources.Infrastructure.Factories.Services.FormServices;
 using Sources.Infrastructure.Factories.Services.ItemFactoriesProviders;
 using Sources.Infrastructure.Factories.Views.Bears;
+using Sources.Infrastructure.Factories.Views.Enemies;
 using Sources.Infrastructure.Factories.Views.GameInventories;
 using Sources.Infrastructure.Factories.Views.Players;
 using Sources.Infrastructure.Factories.Views.Players.PlayerAnimations;
@@ -34,6 +36,7 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
         private readonly BearViewFactory _bearViewFactory;
         private readonly PlayerViewFactory _playerViewFactory;
         private readonly PlayerMovementProvider _playerMovementProvider;
+        private readonly EnemyCommonViewFactory _enemyCommonViewFactory;
 
         public GameplaySceneViewFactory(
             Hud hud,
@@ -47,7 +50,8 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             IItemFactoriesProvider itemFactoriesProvider,
             BearViewFactory bearViewFactory,
             PlayerViewFactory playerViewFactory,
-            PlayerMovementProvider playerMovementProvider)
+            PlayerMovementProvider playerMovementProvider,
+            EnemyCommonViewFactory enemyCommonViewFactory)
         {
             _hud = hud ? hud : throw new ArgumentNullException(nameof(hud));
             _gameplayFormServiceFactory = gameplayFormServiceFactory ?? 
@@ -69,6 +73,8 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             _playerViewFactory = playerViewFactory ?? throw new ArgumentNullException(nameof(playerViewFactory));
             _playerMovementProvider = playerMovementProvider 
                                       ?? throw new ArgumentNullException(nameof(playerMovementProvider));
+            _enemyCommonViewFactory = enemyCommonViewFactory ?? 
+                                      throw new ArgumentNullException(nameof(enemyCommonViewFactory));
         }
 
         public void Create()
@@ -78,7 +84,12 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             _playerViewFactory.Create(playerMovement);
             
             Bear bear = new Bear();
-            _bearViewFactory.Create(bear);
+            BearAttack bearAttack = new BearAttack();
+            _bearViewFactory.Create(bear, bearAttack);
+
+            Enemy enemy = new Enemy();
+            EnemyHealth enemyHealth = new EnemyHealth(100);
+            _enemyCommonViewFactory.Craete(enemy, enemyHealth);
 
             _itemFactoriesProviderFactory.Create();
             

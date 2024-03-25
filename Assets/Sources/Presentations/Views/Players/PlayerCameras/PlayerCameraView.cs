@@ -2,7 +2,7 @@
 using Sources.PresentationsInterfaces.Views.PlayerCameras;
 using UnityEngine;
 
-namespace Sources.Presentations.Views.PlayerCameras
+namespace Sources.Presentations.Views.Players.PlayerCameras
 {
     public class PlayerCameraView : PresentableView<PlayerCameraPresenter>, IPlayerCameraView
     {

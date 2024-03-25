@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Threading;
 using Sources.Domain.Bears;
 using Sources.Infrastructure.Services.Providers.ModelProviders;
 using Sources.Infrastructure.StateMachines.FiniteStateMachines.States;
 using Sources.PresentationsInterfaces.Views.Bears;
+using UnityEngine;
 
 namespace Sources.Controllers.Presenters.Bears.States
 {
@@ -29,6 +29,10 @@ namespace Sources.Controllers.Presenters.Bears.States
 
         public override void Enter()
         {
+            Debug.Log($"Bear enter Follow state");
+            
+            _bearView.EnemyHealthView = null;
+            _bearView.SetStoppingDistance(3f);
             _bearAnimationView.PlayWalk();
         }
 

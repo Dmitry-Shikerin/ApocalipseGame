@@ -2,7 +2,7 @@
 using Sources.Controllers.Presenters.PlayerCamera;
 using Sources.Infrastructure.Factories.Controllers.PlayerCameras;
 using Sources.Infrastructure.Factories.PlayerCameras;
-using Sources.Presentations.Views.PlayerCameras;
+using Sources.Presentations.Views.Players.PlayerCameras;
 using Sources.PresentationsInterfaces.Views.PlayerCameras;
 using Object = UnityEngine.Object;
 
