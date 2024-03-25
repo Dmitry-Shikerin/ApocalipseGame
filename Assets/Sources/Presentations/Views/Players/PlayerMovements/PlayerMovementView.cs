@@ -3,7 +3,7 @@ using Sources.Controllers.Presenters.PlayerMovements;
 using Sources.PresentationsInterfaces.Views.PlayerMovement;
 using UnityEngine;
 
-namespace Sources.Presentations.Views.PlayerMovements
+namespace Sources.Presentations.Views.Players.PlayerMovements
 {
     public class PlayerMovementView : PresentableView<PlayerMovementPresenter>, IPlayerMovementView
     {

@@ -4,7 +4,9 @@ using Sources.Domain.PlayerMovement;
 using Sources.Infrastructure.Factories.Controllers.PlayerMovements;
 using Sources.Infrastructure.Services.WarmUpServices;
 using Sources.Infrastructure.Services.WarmUpServices.Concrete;
-using Sources.Presentations.Views.PlayerMovements;
+using Sources.Presentations.Views.Players.PlayerAnimation;
+using Sources.Presentations.Views.Players.PlayerMovements;
+using Sources.PresentationsInterfaces.Views.PlayerAnimations;
 using Sources.PresentationsInterfaces.Views.PlayerMovement;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -24,10 +26,13 @@ namespace Sources.Infrastructure.Factories.Views.Players.PlayerMovements
                 ?? throw new ArgumentNullException(nameof(playerMovementPresenterFactory));
         }
 
-        public IPlayerMovementView Create(PlayerMovement playerMovement, PlayerMovementView playerMovementView)
+        public IPlayerMovementView Create(
+            PlayerMovement playerMovement, 
+            PlayerMovementView playerMovementView,
+            PlayerAnimationView playerAnimationView)
         {
             PlayerMovementPresenter presenter = _playerMovementPresenterFactory.Create(
-                playerMovement, playerMovementView);
+                playerMovement, playerMovementView, playerAnimationView);
             
             playerMovementView.Construct(presenter);
 

@@ -13,6 +13,7 @@ namespace Sources.Presentations.Views.Bears
         [Required] [SerializeField] private NavMeshAgent _navMeshAgent;
         
         public Vector3 Position => transform.position;
+        public Vector3 Forward => transform.forward;
         public float StoppingDistance => _navMeshAgent.stoppingDistance;
         public BearAnimationView BearAnimationView => _bearAnimationView;
         public IEnemyHealthView EnemyHealthView { get; set; }
@@ -25,6 +26,11 @@ namespace Sources.Presentations.Views.Bears
         public void SetStoppingDistance(float distance)
         {
             _navMeshAgent.stoppingDistance = distance;
+        }
+
+        public void SetLookRotation(Quaternion lookRotation)
+        {
+            transform.rotation = lookRotation;
         }
     }
 }

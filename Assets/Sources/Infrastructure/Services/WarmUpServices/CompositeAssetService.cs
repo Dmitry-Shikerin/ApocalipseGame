@@ -15,7 +15,7 @@ namespace Sources.Infrastructure.Services.WarmUpServices
         {
             _assetServices = new IAssetService[]
             {
-                   playerAssetProvider,
+                   // playerAssetProvider,
                    inventoryItemInfoProvider,
                    bearAssetProvider,
             };

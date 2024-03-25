@@ -35,7 +35,8 @@ namespace Sources.Infrastructure.Factories.Controllers.Bears
             IBearAnimationView bearAnimationView,
             BearAttack bearAttack)
         {
-            BearIdleState bearIdleState = new BearIdleState(bearAnimationView, _overlapService, bearView);
+            BearIdleState bearIdleState = new BearIdleState(
+                bearAnimationView, _overlapService, bearView, _playerMovementProvider);
             FollowState followState = new FollowState(
                 bear, bearAnimationView, bearView, _playerMovementProvider);
             BearMoveToEnemyState moveToEnemyState = new BearMoveToEnemyState(
@@ -46,6 +47,7 @@ namespace Sources.Infrastructure.Factories.Controllers.Bears
                 followState,
                 () => Vector3.Distance(_playerMovementProvider.Position, bearView.Position) > 4f);
             bearIdleState.AddTransition(toFollowTransition);
+            attackState.AddTransition(toFollowTransition);
             
             FiniteTransitionBase toIdleTransition = new FiniteTransitionBase(
                 bearIdleState, ()=> bearView.EnemyHealthView == null &&  Vector3.Distance(

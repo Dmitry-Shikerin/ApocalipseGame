@@ -19,7 +19,7 @@ namespace Sources.Infrastructure.Services.InputService
             Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             float speed = Input.GetAxis("Run");
 
-            PlayerInput = new PlayerInput(direction, speed);
+            PlayerInput = new PlayerInput(direction,Vector3.forward,  speed);
         }
     }
 }

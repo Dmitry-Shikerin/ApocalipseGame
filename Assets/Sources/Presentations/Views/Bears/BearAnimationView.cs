@@ -72,7 +72,7 @@ namespace Sources.Presentations.Views.Bears
             if(_animator.GetBool(_isAttack) == false)
                 return;
 
-            _animator.SetBool(_isAttack, true);
+            _animator.SetBool(_isAttack, false);
         }
         
         private void ExceptAnimation(Action exceptAnimation)

@@ -4,7 +4,7 @@ using Sources.DomainInterfaces.PlayerAnimations;
 using Sources.Infrastructure.Factories.Controllers.PlayerAnimations;
 using Sources.Infrastructure.Services.WarmUpServices;
 using Sources.Infrastructure.Services.WarmUpServices.Concrete;
-using Sources.Presentations.Views.PlayerAnimation;
+using Sources.Presentations.Views.Players.PlayerAnimation;
 using Sources.PresentationsInterfaces.Views.PlayerAnimations;
 
 namespace Sources.Infrastructure.Factories.Views.Players.PlayerAnimations
@@ -25,8 +25,6 @@ namespace Sources.Infrastructure.Factories.Views.Players.PlayerAnimations
         {
             PlayerAnimationPresenter presenter = _playerAnimationPresenterFactory.Create(model, view);
             
-            view.Construct(presenter);
-
             return view;
         }
     }

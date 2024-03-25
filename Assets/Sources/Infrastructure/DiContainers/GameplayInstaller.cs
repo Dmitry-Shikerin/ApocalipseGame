@@ -7,6 +7,8 @@ using Sources.Infrastructure.Factories.Controllers.Inventories;
 using Sources.Infrastructure.Factories.Controllers.Inventories.Slots;
 using Sources.Infrastructure.Factories.Controllers.PlayerAnimations;
 using Sources.Infrastructure.Factories.Controllers.PlayerMovements;
+using Sources.Infrastructure.Factories.Controllers.Players.PlayerAttackers;
+using Sources.Infrastructure.Factories.Controllers.Players.Weapons;
 using Sources.Infrastructure.Factories.Controllers.Scenes;
 using Sources.Infrastructure.Factories.Domain.Items;
 using Sources.Infrastructure.Factories.PlayerCameras;
@@ -22,6 +24,7 @@ using Sources.Infrastructure.Factories.Views.Players;
 using Sources.Infrastructure.Factories.Views.Players.PlayerAnimations;
 using Sources.Infrastructure.Factories.Views.Players.PlayerCameras;
 using Sources.Infrastructure.Factories.Views.Players.PlayerMovements;
+using Sources.Infrastructure.Factories.Views.Players.Weapons;
 using Sources.Infrastructure.Factories.Views.Scenes;
 using Sources.Infrastructure.Services.InputService;
 using Sources.Infrastructure.Services.Inventories;
@@ -95,6 +98,12 @@ namespace Sources.Infrastructure.DiContainers
 
             Container.Bind<PlayerInventoryViewFactory>().AsSingle();
             Container.Bind<LootInventoryViewFactory>().AsSingle();
+
+            Container.Bind<PlayerAttackerPresenterFactory>().AsSingle();
+            Container.Bind<PlayerAttackerViewFactory>().AsSingle();
+
+            Container.Bind<MiniGunPresenterFactory>().AsSingle();
+            Container.Bind<MiniGunViewFactory>().AsSingle();
 
             Container.Bind<PlayerViewFactory>().AsSingle();
         }

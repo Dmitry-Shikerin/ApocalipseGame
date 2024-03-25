@@ -15,7 +15,7 @@ namespace Sources.Controllers.Presenters.Bears.States
 
         public BearAttackState(
             IBearView bearView,
-            Bear bear, 
+            Bear bear,
             IBearAnimationView bearAnimationView,
             BearAttack bearAttack)
         {
@@ -29,7 +29,7 @@ namespace Sources.Controllers.Presenters.Bears.States
         {
             Debug.Log($"Bear enter attack state");
             _bearAnimationView.Attacking += OnAttack;
-            
+
             _bearAnimationView.PlayAttack();
         }
 
@@ -45,6 +45,24 @@ namespace Sources.Controllers.Presenters.Bears.States
         private void OnAttack()
         {
             _bearView.EnemyHealthView.TakeDamage(_bearAttack.Attack());
+        }
+
+        private void ChangeForwardPosition()
+        {
+            Vector3 targetDirection = _bearView.EnemyHealthView.Position - _bearView.Position;
+
+            if (_bearView.Forward == targetDirection)
+                return;
+
+            while (_bearView.Forward != targetDirection)
+            {
+                Vector3 direction = Vector3.MoveTowards(
+                    _bearView.Forward, targetDirection, 0.1f);
+
+                Quaternion look = Quaternion.LookRotation(direction);
+                
+                _bearView.SetLookRotation(look);
+            }
         }
     }
 }

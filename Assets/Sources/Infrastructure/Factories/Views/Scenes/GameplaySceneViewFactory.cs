@@ -5,6 +5,8 @@ using Sources.Domain.Enemies;
 using Sources.Domain.Inventories;
 using Sources.Domain.Items;
 using Sources.Domain.PlayerMovement;
+using Sources.Domain.Players.PlayerShooters;
+using Sources.Domain.Players.Weapons;
 using Sources.Infrastructure.Factories.Services.FormServices;
 using Sources.Infrastructure.Factories.Services.ItemFactoriesProviders;
 using Sources.Infrastructure.Factories.Views.Bears;
@@ -14,6 +16,7 @@ using Sources.Infrastructure.Factories.Views.Players;
 using Sources.Infrastructure.Factories.Views.Players.PlayerAnimations;
 using Sources.Infrastructure.Factories.Views.Players.PlayerCameras;
 using Sources.Infrastructure.Factories.Views.Players.PlayerMovements;
+using Sources.Infrastructure.Factories.Views.Players.Weapons;
 using Sources.Infrastructure.Services.Providers.ModelProviders;
 using Sources.InfrastructureInterfaces.Services.Providers;
 using Sources.Presentations.Ui.Huds;
@@ -37,6 +40,8 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
         private readonly PlayerViewFactory _playerViewFactory;
         private readonly PlayerMovementProvider _playerMovementProvider;
         private readonly EnemyCommonViewFactory _enemyCommonViewFactory;
+        private readonly PlayerAttackerViewFactory _playerAttackerViewFactory;
+        private readonly MiniGunViewFactory _miniGunViewFactory;
 
         public GameplaySceneViewFactory(
             Hud hud,
@@ -51,7 +56,9 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             BearViewFactory bearViewFactory,
             PlayerViewFactory playerViewFactory,
             PlayerMovementProvider playerMovementProvider,
-            EnemyCommonViewFactory enemyCommonViewFactory)
+            EnemyCommonViewFactory enemyCommonViewFactory,
+            PlayerAttackerViewFactory playerAttackerViewFactory,
+            MiniGunViewFactory miniGunViewFactory)
         {
             _hud = hud ? hud : throw new ArgumentNullException(nameof(hud));
             _gameplayFormServiceFactory = gameplayFormServiceFactory ?? 
@@ -69,19 +76,27 @@ namespace Sources.Infrastructure.Factories.Views.Scenes
             _lootInventoryViewFactory = lootInventoryViewFactory;
             _itemFactoriesProvider = itemFactoriesProvider ??
                                      throw new ArgumentNullException(nameof(itemFactoriesProvider));
-            _bearViewFactory = bearViewFactory ?? throw new ArgumentNullException(nameof(bearViewFactory));
-            _playerViewFactory = playerViewFactory ?? throw new ArgumentNullException(nameof(playerViewFactory));
+            _bearViewFactory = bearViewFactory ?? 
+                               throw new ArgumentNullException(nameof(bearViewFactory));
+            _playerViewFactory = playerViewFactory ?? 
+                                 throw new ArgumentNullException(nameof(playerViewFactory));
             _playerMovementProvider = playerMovementProvider 
                                       ?? throw new ArgumentNullException(nameof(playerMovementProvider));
             _enemyCommonViewFactory = enemyCommonViewFactory ?? 
                                       throw new ArgumentNullException(nameof(enemyCommonViewFactory));
+            _playerAttackerViewFactory = playerAttackerViewFactory ?? 
+                                         throw new ArgumentNullException(nameof(playerAttackerViewFactory));
+            _miniGunViewFactory = miniGunViewFactory ?? 
+                                  throw new ArgumentNullException(nameof(miniGunViewFactory));
         }
 
         public void Create()
         {
             PlayerMovement playerMovement = new PlayerMovement();
+            MiniGun miniGun = new MiniGun(5, 0.5f);
+            PlayerAttacker playerAttacker = new PlayerAttacker(miniGun);
             _playerMovementProvider.Set(playerMovement);
-            _playerViewFactory.Create(playerMovement);
+            _playerViewFactory.Create(playerMovement, playerAttacker, miniGun);
             
             Bear bear = new Bear();
             BearAttack bearAttack = new BearAttack();

@@ -28,7 +28,24 @@ namespace Sources.Infrastructure.Services.InputService
             Vector2 input = _inputManager.Gameplay.Movement.ReadValue<Vector2>();
             float speed = _inputManager.Gameplay.Run.ReadValue<float>();
             
-            PlayerInput = new PlayerInput(new Vector3(input.x, 0, input.y), speed);
+            RaycastHit hit;
+            Vector3 lookDirection = new Vector3();
+            Ray cameraPosition = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(cameraPosition, out hit))
+            {
+                lookDirection = hit.point;
+                Debug.Log(hit.point);
+            }
+            
+            PlayerInput = new PlayerInput(
+                new Vector3(input.x, 0, input.y), 
+                lookDirection,
+                speed);
+        }
+
+        private void ReadLook()
+        {
         }
     }
 }
